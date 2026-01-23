@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Link Bio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #fff;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 380px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #fff;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      margin: 10px 0 4px;
+      font-size: 24px;
+    }
+
+    .bio {
+      font-size: 14px;
+      opacity: 0.85;
+      margin-bottom: 24px;
+    }
+
+    .link {
+      display: block;
+      text-decoration: none;
+      background: #ffffff;
+      color: #111;
+      padding: 14px;
+      border-radius: 12px;
+      margin-bottom: 14px;
+      font-weight: 600;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .link:hover {
+      transform: scale(1.04);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+
+    footer {
+      margin-top: 24px;
+      font-size: 12px;
+      opacity: 0.6;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <!-- AVATAR -->
+    <img
+      class="avatar"
+      src="https://avatars.githubusercontent.com/u/256741950"
+      alt="avatar"
+    />
+
+    <!-- TÊN + MÔ TẢ -->
+    <h1>Pham Ngoc Son</h1>
+    <div class="bio">Developer | Otaku | Content Creator</div>
+
+    <!-- LINK -->
+    <a class="link" href="https://github.com/VNKaioKame" target="_blank">🐙 GitHub</a>
+    <a class="link" href="https://facebook.com/iamkamengocson" target="_blank">📘 Facebook</a>
+    <a class="link" href="https://instagram.com/itzz_.kamengocson_" target="_blank">📸 Instagram</a>
+    <a class="link" href="https://tiktok.com/k4mengxcsxn._" target="_blank">💼 TikTok</a>
+    <a class="link" href="kame.ngocson2101@gmail.com">📧 Email</a>
+
+    <footer>
+      © 2026 • Made by Kame Ngoc Son
+    </footer>
+  </div>
+</body>
+</html>
