@@ -5,7 +5,30 @@
   <title>myprofileishere</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-  <style>
+  <style>:root {
+  --bg: #0e0e14;
+  --card: #181825;
+  --text: #ffffff;
+  --accent: rgb(255,120,80);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+    body[data-theme="purple"] {
+  --bg: #0f0a1f;
+  --card: #1a1233;
+  --accent: rgb(180,120,255);
+}
+
+body[data-theme="neon"] {
+  --bg: #050505;
+  --card: #0c0c0c;
+  --accent: rgb(0,255,200);
+}
+
+
     * {
       box-sizing: border-box;
     }
@@ -66,13 +89,15 @@ body {
   justify-content: center;
   gap: 10px;
   text-decoration: none;
-  background: #1f1f2b;
-  color: #ffffff;
+
+  background: var(--card);
+  color: var(--text);
   padding: 15px;
   border-radius: 14px;
   margin-bottom: 14px;
   font-weight: 600;
-  border: 1px solid #2c2c3a;
+
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
   transition: all 0.15s ease;
 }
 
@@ -219,6 +244,18 @@ body {
     box-shadow: 0 0 12px rgba(255,120,80,0.35);
   }
 }
+    @keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 25%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 16px color-mix(in srgb, var(--accent) 45%, transparent);
+  }
+  100% {
+    box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 25%, transparent);
+  }
+}
+
 
 .container .link {
   opacity: 0;
@@ -319,6 +356,12 @@ body {
   </div>
 </body>
   <script>
+function setTheme(theme) {
+  document.body.setAttribute("data-theme", theme);
+}
+</script>
+
+  <script>
   document.querySelectorAll(".link").forEach(link => {
     link.addEventListener("mousemove", e => {
       const rect = link.getBoundingClientRect();
@@ -341,5 +384,16 @@ body {
     });
   });
 </script>
+  <script>
+function setTheme(theme) {
+  document.body.setAttribute("data-theme", theme);
+  localStorage.setItem("theme", theme);
+}
+document.addEventListener("DOMContentLoaded", () => {
+  const saved = localStorage.getItem("theme");
+  if (saved) document.body.setAttribute("data-theme", saved);
+});
+</script>
+
 
 </html>
