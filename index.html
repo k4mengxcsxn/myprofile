@@ -91,27 +91,30 @@ body {
 }
     /* ===== REVEAL LINKS ===== */
 
-@keyframes reveal {
+@keyframes revealUp {
   from {
     opacity: 0;
-    transform: translateY(20px) scale(0.98);
+    transform: translateY(18px);
   }
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0);
   }
 }
 
+
 .container .link {
   opacity: 0;
-  animation: reveal 0.5s ease forwards;
+  animation-name: revealUp;
+  animation-duration: 0.6s;
+  animation-fill-mode: forwards;
 }
 
-.container .link:nth-child(1) { animation-delay: 0.1s; }
-.container .link:nth-child(2) { animation-delay: 0.2s; }
-.container .link:nth-child(3) { animation-delay: 0.3s; }
-.container .link:nth-child(4) { animation-delay: 0.4s; }
-.container .link:nth-child(5) { animation-delay: 0.5s; }
+.container .link:nth-child(1) { animation-delay: 0.2s; }
+.container .link:nth-child(2) { animation-delay: 0.3s; }
+.container .link:nth-child(3) { animation-delay: 0.4s; }
+.container .link:nth-child(4) { animation-delay: 0.5s; }
+.container .link:nth-child(5) { animation-delay: 0.6s; }
 
     /* ===== MOBILE FIRST ===== */
 @media (max-width: 480px) {
