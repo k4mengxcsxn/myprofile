@@ -118,6 +118,7 @@ body {
 
   body {
     padding: 16px;
+    font-size: 18px
   }
 
   .container {
@@ -127,8 +128,8 @@ body {
   }
 
   .avatar {
-    width: 90px;
-    height: 90px;
+    width: 96px;
+    height: 96px;
   }
 
   h1 {
@@ -171,7 +172,16 @@ body {
   50%  { box-shadow: 0 0 18px rgba(255,120,80,0.4); }
   100% { box-shadow: 0 0 0 rgba(255,120,80,0); }
 }
-    /* ===== REVEAL + GLOW ===== */
+
+.avatar {
+  animation: pulse 2.5s infinite;
+  transition: transform 0.3s ease;
+}
+
+.avatar:hover {
+  transform: rotate(-3deg) scale(1.05);
+}
+        /* ===== REVEAL + GLOW ===== */
 
 @keyframes revealGlow {
   0% {
@@ -190,23 +200,50 @@ body {
   opacity: 0;
   animation: revealGlow 0.6s cubic-bezier(.2,.8,.2,1) forwards;
 }
+    @keyframes softReveal {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
 
 /* xuất hiện lần lượt */
-.container .link:nth-child(1) { animation-delay: 0.1s; }
-.container .link:nth-child(2) { animation-delay: 0.2s; }
-.container .link:nth-child(3) { animation-delay: 0.3s; }
-.container .link:nth-child(4) { animation-delay: 0.4s; }
-.container .link:nth-child(5) { animation-delay: 0.5s; }
-
-
-.avatar {
-  animation: pulse 2.5s infinite;
-  transition: transform 0.3s ease;
+.container .link:nth-child(1) { animation-delay: 0.2s; }
+.container .link:nth-child(2) { animation-delay: 0.25s; }
+.container .link:nth-child(3) { animation-delay: 0.35s; }
+.container .link:nth-child(4) { animation-delay: 0.45s; }
+.container .link:nth-child(5) { animation-delay: 0.55s; }
+    
+/* ===== TILT + GLOW ===== */
+.link {
+  position: relative;
+  overflow: hidden;
 }
 
-.avatar:hover {
-  transform: rotate(-3deg) scale(1.05);
+.link::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    120px circle at var(--x, 50%) var(--y, 50%),
+    rgba(255,120,80,0.25),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.2s ease;
 }
+
+.link:hover::before {
+  opacity: 1;
+}
+
 
 
   </style>
@@ -257,4 +294,28 @@ body {
     </footer>
   </div>
 </body>
+  <script>
+  document.querySelectorAll(".link").forEach(link => {
+    link.addEventListener("mousemove", e => {
+      const rect = link.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      link.style.setProperty("--x", x + "px");
+      link.style.setProperty("--y", y + "px");
+
+      const rotateX = ((y / rect.height) - 0.5) * -6;
+      const rotateY = ((x / rect.width) - 0.5) * 6;
+
+      link.style.transform =
+        `perspective(600px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+    });
+
+    link.addEventListener("mouseleave", () => {
+      link.style.transform =
+        "perspective(600px) rotateX(0) rotateY(0) scale(1)";
+    });
+  });
+</script>
+
 </html>
