@@ -141,18 +141,18 @@ h1 {
     scale(0.96);
 }
 
-/* ================= REVEAL ================= */
-.container .link {
+/* ============== REVEAL ============== */
+.container a.link {
   opacity: 0;
   animation: revealGlow .6s cubic-bezier(.2,.8,.2,1) forwards;
+  animation-delay: calc(var(--i) * .1s);
 }
 
-.container .link:nth-child(1) { animation-delay: .15s; }
-.container .link:nth-child(2) { animation-delay: .25s; }
-.container .link:nth-child(3) { animation-delay: .35s; }
-.container .link:nth-child(4) { animation-delay: .45s; }
-.container .link:nth-child(5) { animation-delay: .55s; }
-.container .link:nth-child(6) { animation-delay: .65s; }
+.container a.link:nth-of-type(1) { animation-delay: .15s; }
+.container a.link:nth-of-type(2) { animation-delay: .25s; }
+.container a.link:nth-of-type(3) { animation-delay: .35s; }
+.container a.link:nth-of-type(4) { animation-delay: .45s; }
+.container a.link:nth-of-type(5) { animation-delay: .55s; }
 
 /* ================= RIPPLE ================= */
 .ripple {
@@ -224,13 +224,12 @@ footer {
   <div class="bio">Developer | Otaku | Content Creator</div>
   <div class="bio">hi, i'm Kame Ngoc Son.</div>
 
-  <a class="link" href="https://github.com/k4mengxcsxn" target="_blank">🐙 GitHub</a>
-  <a class="link" href="https://www.tiktok.com/@k4mengxcsxn._" target="_blank">🎵 TikTok</a>
-  <a class="link" href="https://www.facebook.com/iamkamengocson" target="_blank">📘 Facebook</a>
-  <a class="link" href="https://www.instagram.com/itzz_.kamengocson_" target="_blank">📸 Instagram</a>
-  <a class="link" href="https://discord.com/users/@k4mengxcsxn_" target="_blank">🎮 Discord</a>
-  <a class="link" href="mailto:kame.ngocson2101@gmail.com">📧 Email</a>
-
+ <a class="link" style="--i:1" href="https://github.com/k4mengxcsxn" target="_blank">🐙 GitHub</a>
+<a class="link" style="--i:2" href="https://www.tiktok.com/@k4mengxcsxn._" target="_blank">🎵 TikTok</a>
+<a class="link" style="--i:3" href="https://www.facebook.com/iamkamengocson" target="_blank">📘 Facebook</a>
+<a class="link" style="--i:4" href="https://www.instagram.com/itzz_.kamengocson_" target="_blank">📸 Instagram</a>
+<a class="link" style="--i:5" href="https://discord.com/users/@" target="_blank">🎮 Discord</a>
+<a class="link" style="--i:6" href="mailto:kame.ngocson2101@gmail.com">📧 Email</a>
   <footer>© 2026 • Made by Kame Ngoc Son</footer>
 </div>
 
