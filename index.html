@@ -94,15 +94,23 @@ h1 {
   text-decoration: none;
   font-weight: 600;
 
-  background: var(--card);
-  color: var(--text);
+  background: var(----card);
+  color: var(----text);
   padding: 15px;
   border-radius: 14px;
   margin-bottom: 14px;
 
   border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
 
-  transform: translateY(0) scale(1);
+  will-change: transform;
+
+  transform:
+    perspective(600px)
+    rotateX(var(--rx, 0deg))
+    rotateY(var(--ry, 0deg))
+    translateY(0)
+    scale(1);
+
   transition:
     transform .18s ease,
     box-shadow .18s ease,
@@ -112,16 +120,25 @@ h1 {
 /* hover → nổi */
 .link:hover {
   background: color-mix(in srgb, var(--card) 80%, var(--accent) 20%);
-  transform: translateY(-4px) scale(1.05);
-  box-shadow:
-    0 8px 24px color-mix(in srgb, var(--accent) 45%, transparent);
-}
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--accent) 45%, transparent);
 
+  transform:
+    perspective(600px)
+    rotateX(var(--rx, 0deg))
+    rotateY(var(--ry, 0deg))
+    translateY(-4px)
+    scale(1.05);
+}
 /* click → đè */
 .link:active {
-  transform: translateY(0) scale(0.96);
-  box-shadow:
-    0 4px 12px color-mix(in srgb, var(--accent) 35%, transparent);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--accent) 35%, transparent);
+
+  transform:
+    perspective(600px)
+    rotateX(var(--rx, 0deg))
+    rotateY(var(--ry, 0deg))
+    translateY(0)
+    scale(0.96);
 }
 
 /* ================= REVEAL ================= */
@@ -189,6 +206,12 @@ footer {
   body { padding: 16px; }
   .container { padding: 20px; }
   .link { font-size: 16px; padding: 18px; }
+}
+  /* ===== BONUS: tắt tilt 3D trên mobile ===== */
+@media (hover: none) {
+  .link {
+    transform: translateY(0) scale(1) !important;
+  }
 }
 </style>
 </head>
