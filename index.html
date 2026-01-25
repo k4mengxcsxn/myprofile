@@ -1,22 +1,20 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <title>myprofileishere</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8" />
+<title>myprofileishere</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-  <style>:root {
+<style>
+/* ================= THEME ================= */
+:root {
   --bg: #0e0e14;
   --card: #181825;
   --text: #ffffff;
   --accent: rgb(255,120,80);
 }
 
-body {
-  background: var(--bg);
-  color: var(--text);
-}
-    body[data-theme="purple"] {
+body[data-theme="purple"] {
   --bg: #0f0a1f;
   --card: #1a1233;
   --accent: rgb(180,120,255);
@@ -28,10 +26,10 @@ body[data-theme="neon"] {
   --accent: rgb(0,255,200);
 }
 
-
-    * {
-      box-sizing: border-box;
-    }
+/* ================= RESET ================= */
+* {
+  box-sizing: border-box;
+}
 
 body {
   margin: 0;
@@ -41,197 +39,105 @@ body {
   justify-content: center;
   font-family: system-ui, sans-serif;
   background: linear-gradient(135deg, #0f0f13, #1a1a22);
-  color: #eaeaf0;
-}
-body {
-  margin: 0;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: system-ui, sans-serif;
-  background: linear-gradient(135deg, #0f0f13, #1a1a22);
-  color: #eaeaf0;
+  color: var(--text);
 }
 
-
+/* ================= CONTAINER ================= */
 .container {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255,255,255,0.03);
   border-radius: 20px;
   padding: 28px;
+  width: 100%;
+  max-width: 420px;
   box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  animation: fadeUp 0.6s ease-out;
 }
 
+/* ================= AVATAR ================= */
+.avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid white;
+  margin-bottom: 12px;
+  animation: pulse 2.8s ease-in-out infinite;
+  transition: transform .3s ease;
+}
 
-    .avatar {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid #fff;
-      margin-bottom: 12px;
-    }
+.avatar:hover {
+  transform: rotate(-3deg) scale(1.05);
+}
 
-    h1 {
-      margin: 10px 0 4px;
-      font-size: 24px;
-    }
+/* ================= TEXT ================= */
+h1 {
+  margin: 10px 0 4px;
+  font-size: 24px;
+}
 
-    .bio {
-      font-size: 14px;
-      opacity: 0.85;
-      margin-bottom: 24px;
-    }
+.bio {
+  font-size: 14px;
+  opacity: .85;
+  margin-bottom: 10px;
+}
 
- .link {
+/* ================= LINK ================= */
+.link {
+  position: relative;
+  overflow: hidden;
+
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
+
   text-decoration: none;
+  font-weight: 600;
 
   background: var(--card);
   color: var(--text);
   padding: 15px;
   border-radius: 14px;
   margin-bottom: 14px;
-  font-weight: 600;
 
   border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
-  transition: all 0.15s ease;
-   position: relative;
-  overflow: hidden;
+
+  transform: translateY(0) scale(1);
+  transition:
+    transform .18s ease,
+    box-shadow .18s ease,
+    background .18s ease;
 }
 
+/* hover → nổi */
 .link:hover {
-  background: #2a2a3a;
-  transform: scale(1.05);
+  background: color-mix(in srgb, var(--card) 80%, var(--accent) 20%);
+  transform: translateY(-4px) scale(1.05);
   box-shadow:
-  0 0 8px rgba(255, 120, 80, 0.5),
-  0 0 18px rgba(255, 120, 80, 0.35);
-}
-    .link:active {
-  transform: scale(0.96);
+    0 8px 24px color-mix(in srgb, var(--accent) 45%, transparent);
 }
 
-
- footer {
-  margin-top: 24px;
-  font-size: 12px;
-  opacity: 0.6;
-}
-    /* ===== REVEAL LINKS ===== */
-
-@keyframes revealUp {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-@keyframes revealGlow {
-  from {
-    opacity: 0;
-    box-shadow: 0 0 0 rgba(255,120,80,0);
-  }
-  to {
-    opacity: 1;
-    box-shadow: 0 0 12px rgba(255,120,80,0.35);
-  }
-}
-@keyframes pulseGlow {
-  0% {
-    box-shadow: 0 0 8px rgba(255,120,80,0.25);
-  }
-  50% {
-    box-shadow: 0 0 14px rgba(255,120,80,0.45);
-  }
-  100% {
-    box-shadow: 0 0 8px rgba(255,120,80,0.25);
-  }
+/* click → đè */
+.link:active {
+  transform: translateY(0) scale(0.96);
+  box-shadow:
+    0 4px 12px color-mix(in srgb, var(--accent) 35%, transparent);
 }
 
-
-
+/* ================= REVEAL ================= */
 .container .link {
   opacity: 0;
-  animation:
-    revealGlow 0.5s ease forwards,
-    pulseGlow 3s ease-in-out infinite;
+  animation: revealGlow .6s cubic-bezier(.2,.8,.2,1) forwards;
 }
 
+.container .link:nth-child(1) { animation-delay: .15s; }
+.container .link:nth-child(2) { animation-delay: .25s; }
+.container .link:nth-child(3) { animation-delay: .35s; }
+.container .link:nth-child(4) { animation-delay: .45s; }
+.container .link:nth-child(5) { animation-delay: .55s; }
+.container .link:nth-child(6) { animation-delay: .65s; }
 
-.container .link:nth-child(1) { animation-delay: 0.2s; }
-.container .link:nth-child(2) { animation-delay: 0.3s; }
-.container .link:nth-child(3) { animation-delay: 0.4s; }
-.container .link:nth-child(4) { animation-delay: 0.5s; }
-.container .link:nth-child(5) { animation-delay: 0.6s; }
-
-    /* ===== MOBILE FIRST ===== */
-@media (max-width: 480px) {
-
-  body {
-    padding: 16px;
-    font-size: 18px
-  }
-
-  .container {
-    width: 100%;
-    max-width: 100%;
-    padding: 20px;
-  }
-
-  .avatar {
-    width: 96px;
-    height: 96px;
-  }
-
-  h1 {
-    font-size: 22px;
-  }
-
-  .bio {
-    font-size: 14px;
-  }
-
-  .link {
-    padding: 18px;
-    font-size: 16px;
-    border-radius: 16px;
-  }
-
-  .link:active {
-    transform: scale(0.97);
-  }
-}
-
-/* ===== ANIMATION ===== */
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.container {
-  animation: fadeUp 0.6s ease-out;
-}
-
-@keyframes pulse {
-  0%   { box-shadow: 0 0 0 rgba(255,120,80,0); }
-  50%  { box-shadow: 0 0 18px rgba(255,120,80,0.4); }
-  100% { box-shadow: 0 0 0 rgba(255,120,80,0); }
-}
-    /* ===== REVEAL / PULSE ===== */
-@keyframes fadeUp { ... }
-@keyframes pulse { ... }
-
-/* ===== RIPPLE ===== */
+/* ================= RIPPLE ================= */
 .ripple {
   position: absolute;
   width: 20px;
@@ -239,209 +145,86 @@ body {
   background: color-mix(in srgb, var(--accent) 60%, transparent);
   border-radius: 50%;
   pointer-events: none;
-  animation: ripple 0.6s ease-out;
+  animation: ripple .6s ease-out;
+}
+
+/* ================= FOOTER ================= */
+footer {
+  margin-top: 24px;
+  font-size: 12px;
+  opacity: .6;
+}
+
+/* ================= ANIMATION ================= */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes revealGlow {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(.96);
+    box-shadow: 0 0 0 transparent;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    box-shadow: 0 0 14px color-mix(in srgb, var(--accent) 35%, transparent);
+  }
+}
+
+@keyframes pulse {
+  0%,100% { box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 25%, transparent); }
+  50%     { box-shadow: 0 0 16px color-mix(in srgb, var(--accent) 45%, transparent); }
 }
 
 @keyframes ripple {
-  from {
-    transform: scale(0);
-    opacity: 0.4;
-  }
-  to {
-    transform: scale(2.5);
-    opacity: 0;
-  }
+  from { transform: scale(0); opacity: .4; }
+  to   { transform: scale(2.5); opacity: 0; }
 }
 
-
-.avatar {
-  animation: pulse 2.5s infinite;
-  transition: transform 0.3s ease;
+/* ================= MOBILE ================= */
+@media (max-width: 480px) {
+  body { padding: 16px; }
+  .container { padding: 20px; }
+  .link { font-size: 16px; padding: 18px; }
 }
-
-.avatar:hover {
-  transform: rotate(-3deg) scale(1.05);
-}
-        /* ===== REVEAL + GLOW ===== */
-
-@keyframes revealGlow {
-  0% {
-    opacity: 0;
-    transform: translateY(24px) scale(0.95);
-    box-shadow: 0 0 0 rgba(255,120,80,0);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    box-shadow: 0 0 12px rgba(255,120,80,0.35);
-  }
-}
-    @keyframes pulseGlow {
-  0% {
-    box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 25%, transparent);
-  }
-  50% {
-    box-shadow: 0 0 16px color-mix(in srgb, var(--accent) 45%, transparent);
-  }
-  100% {
-    box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 25%, transparent);
-  }
-}
-
-
-.container .link {
-  opacity: 0;
-  animation: revealGlow 0.6s cubic-bezier(.2,.8,.2,1) forwards;
-}
-    @keyframes softReveal {
-  from {
-    opacity: 0;
-    transform: translateY(16px) scale(0.98);
-    filter: blur(6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    filter: blur(0);
-  }
-}
-
-
-/* xuất hiện lần lượt */
-.container .link:nth-child(1) { animation-delay: 0.2s; }
-.container .link:nth-child(2) { animation-delay: 0.25s; }
-.container .link:nth-child(3) { animation-delay: 0.35s; }
-.container .link:nth-child(4) { animation-delay: 0.45s; }
-.container .link:nth-child(5) { animation-delay: 0.55s; }
-    
-/* ===== TILT + GLOW ===== */
-.link {
-  position: relative;
-  overflow: hidden;
-}
-
-.link::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    120px circle at var(--x, 50%) var(--y, 50%),
-    rgba(255,120,80,0.25),
-    transparent 60%
-  );
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
-
-.link:hover::before {
-  opacity: 1;
-}
-
-
-
-  </style>
+</style>
 </head>
 
 <body>
-  <div class="container">
-    <!-- AVATAR -->
-    <img
-      class="avatar"
-      src="https://avatars.githubusercontent.com/u/256741950"
-      alt="avatar"
-    />
+<div class="container">
+  <img class="avatar" src="https://avatars.githubusercontent.com/u/256741950" />
 
-    <!-- TÊN + MÔ TẢ -->
-    <h1>Pham Ngoc Son</h1>
-    <div class="bio">Developer | Otaku | Content Creator</div>
-    <div class="bio">hi, i'm Kame Ngoc Son.</div>
+  <h1>Pham Ngoc Son</h1>
+  <div class="bio">Developer | Otaku | Content Creator</div>
+  <div class="bio">hi, i'm Kame Ngoc Son.</div>
 
-    <!-- LINK -->
-<a class="link" href="https://github.com/k4mengxcsxn" target="_blank">
-  🐙 GitHub
-</a>
+  <a class="link" href="https://github.com/k4mengxcsxn" target="_blank">🐙 GitHub</a>
+  <a class="link" href="https://www.tiktok.com/@k4mengxcsxn._" target="_blank">🎵 TikTok</a>
+  <a class="link" href="https://www.facebook.com/iamkamengocson" target="_blank">📘 Facebook</a>
+  <a class="link" href="https://www.instagram.com/itzz_.kamengocson_" target="_blank">📸 Instagram</a>
+  <a class="link" href="https://discord.com/users/@k4mengxcsxn_" target="_blank">🎮 Discord</a>
+  <a class="link" href="mailto:kame.ngocson2101@gmail.com">📧 Email</a>
 
-<a class="link" href="https://www.tiktok.com/@k4mengxcsxn._" target="_blank">
-  🎵 TikTok
-</a>
+  <footer>© 2026 • Made by Kame Ngoc Son</footer>
+</div>
 
-<a class="link" href="https://www.facebook.com/iamkamengocson" target="_blank">
-  📘 Facebook
-</a>
-
-<a class="link" href="https://www.instagram.com/itzz_.kamengocson_" target="_blank">
-  📸 Instagram
-</a>
-
-<a class="link" href="https://discord.com/users/@k4mengxcsxn_" target="_blank">
-  🎮 Discord
-</a>
-
-<a class="link" href="mailto:kame.ngocson2101@gmail.com">
-  📧 Email liên hệ
-</a>
-
-
-    <footer>
-      © 2026 • Made by Kame Ngoc Son
-    </footer>
-  </div>
-</body>
-  <script>
+<script>
 document.querySelectorAll('.link').forEach(link => {
-  link.addEventListener('click', function (e) {
+  link.addEventListener('click', e => {
     const ripple = document.createElement('span');
     ripple.className = 'ripple';
 
-    const rect = this.getBoundingClientRect();
-    ripple.style.left = (e.clientX - rect.left) + 'px';
-    ripple.style.top = (e.clientY - rect.top) + 'px';
+    const rect = link.getBoundingClientRect();
+    ripple.style.left = e.clientX - rect.left + 'px';
+    ripple.style.top  = e.clientY - rect.top  + 'px';
 
-    this.appendChild(ripple);
+    link.appendChild(ripple);
     setTimeout(() => ripple.remove(), 600);
   });
 });
 </script>
-
-  <script>
-function setTheme(theme) {
-  document.body.setAttribute("data-theme", theme);
-}
-</script>
-
-  <script>
-  document.querySelectorAll(".link").forEach(link => {
-    link.addEventListener("mousemove", e => {
-      const rect = link.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-
-      link.style.setProperty("--x", x + "px");
-      link.style.setProperty("--y", y + "px");
-
-      const rotateX = ((y / rect.height) - 0.5) * -6;
-      const rotateY = ((x / rect.width) - 0.5) * 6;
-
-      link.style.transform =
-        `perspective(600px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
-    });
-
-    link.addEventListener("mouseleave", () => {
-      link.style.transform =
-        "perspective(600px) rotateX(0) rotateY(0) scale(1)";
-    });
-  });
-</script>
-  <script>
-function setTheme(theme) {
-  document.body.setAttribute("data-theme", theme);
-  localStorage.setItem("theme", theme);
-}
-document.addEventListener("DOMContentLoaded", () => {
-  const saved = localStorage.getItem("theme");
-  if (saved) document.body.setAttribute("data-theme", saved);
-});
-</script>
-
-
+</body>
 </html>
