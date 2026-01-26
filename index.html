@@ -6,7 +6,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
 <style>
-/* ================= THEME ================= */
 :root {
   --bg: #0e0e14;
   --card: #181825;
@@ -14,7 +13,7 @@
   --accent: rgb(255,120,80);
 }
 
-/* ================= RESET ================= */
+/* ===== RESET ===== */
 * { box-sizing: border-box; }
 
 body {
@@ -23,122 +22,152 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: system-ui, sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   background: linear-gradient(135deg, #0f0f13, #1a1a22);
   color: var(--text);
 }
 
-/* ================= CONTAINER ================= */
+/* ===== CARD ===== */
 .container {
-  background: rgba(255,255,255,0.04);
-  border-radius: 20px;
-  padding: 28px;
+  position: relative;
+  background: rgba(255,255,255,0.035);
+  border-radius: 22px;
+  padding: 34px 28px 28px;
   width: 100%;
   max-width: 420px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-  animation: fadeUp 0.6s ease-out;
-  text-align: center;
+  box-shadow: 0 20px 45px rgba(0,0,0,0.45);
+  animation: fadeUp .6s ease-out;
 }
 
-/* ================= AVATAR ================= */
+/* ===== CLOCK WIDGET ===== */
+.clock-widget {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  text-align: right;
+  user-select: none;
+}
+
+.clock-date {
+  font-size: 11px;
+  opacity: .7;
+  letter-spacing: .4px;
+  margin-bottom: 2px;
+}
+
+.clock-time {
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+}
+
+.clock-time span {
+  display: inline-block;
+  min-width: 24px;
+}
+
+.second.tick {
+  animation: tick .18s steps(1, end);
+}
+
+@keyframes tick {
+  from { transform: translateY(-3px); opacity: .55; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+#uptime {
+  font-size: 11px;
+  opacity: .65;
+  margin-top: 2px;
+}
+
+/* ===== AVATAR ===== */
 .avatar {
-  width: 100px;
-  height: 100px;
+  width: 96px;
+  height: 96px;
   border-radius: 50%;
   object-fit: cover;
   border: 3px solid white;
-  margin-bottom: 12px;
+  margin: 14px auto;
+  display: block;
   animation: pulse 2.8s ease-in-out infinite;
 }
 
-/* ================= TEXT ================= */
+/* ===== TEXT ===== */
 h1 {
-  margin: 10px 0 4px;
+  margin: 8px 0 4px;
   font-size: 24px;
+  text-align: center;
 }
 
 .bio {
   font-size: 14px;
   opacity: .85;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
+  text-align: center;
 }
 
-/* ================= LINK ================= */
+/* ===== LINKS ===== */
 .link {
+  position: relative;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
   text-decoration: none;
   font-weight: 600;
-
   background: var(--card);
   color: var(--text);
-
   padding: 15px;
   border-radius: 14px;
   margin-bottom: 14px;
-
   border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
-
-  transition: transform .18s ease, box-shadow .18s ease;
+  transition: transform .15s ease, box-shadow .15s ease;
 }
 
 .link:hover {
   transform: scale(1.05);
-  box-shadow:
-    0 0 8px rgba(255,120,80,.5),
-    0 0 18px rgba(255,120,80,.35);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--accent) 40%, transparent);
 }
 
 .link:active {
-  transform: scale(.94);
+  transform: scale(0.94);
 }
 
-/* ================= INFO ================= */
-.info {
+/* ===== RIPPLE ===== */
+.link .ripple {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  pointer-events: none;
+  background: color-mix(in srgb, var(--accent) 60%, transparent);
+  transform: translate(-50%, -50%) scale(0);
+  animation: ripple .6s ease-out;
+}
+
+@keyframes ripple {
+  to { transform: translate(-50%, -50%) scale(12); opacity: 0; }
+}
+
+/* ===== FOOTER ===== */
+footer {
   margin-top: 20px;
-  font-size: 13px;
-  opacity: .8;
-}
-
-#clock {
-  font-weight: 600;
-  letter-spacing: 1px;
-}
-
-#uptime {
-  margin-top: 4px;
   font-size: 12px;
+  opacity: .6;
+  text-align: center;
 }
 
-/* ================= NUMBER POP ================= */
-@keyframes pop {
-  0% { transform: translateY(4px) scale(.95); opacity:.4; }
-  60% { transform: translateY(0) scale(1.05); opacity:1; }
-  100% { transform: scale(1); }
-}
-
-.animate {
-  animation: pop .35s cubic-bezier(.2,.8,.2,1);
-}
-
-/* ================= ANIMATION ================= */
+/* ===== ANIMATION ===== */
 @keyframes fadeUp {
-  from { opacity:0; transform:translateY(20px); }
-  to { opacity:1; transform:translateY(0); }
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes pulse {
-  0%,100% { box-shadow:0 0 8px color-mix(in srgb, var(--accent) 25%, transparent); }
-  50% { box-shadow:0 0 16px color-mix(in srgb, var(--accent) 45%, transparent); }
-}
-
-/* ================= FOOTER ================= */
-footer {
-  margin-top: 24px;
-  font-size: 12px;
-  opacity: .6;
+  0%,100% { box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 25%, transparent); }
+  50%     { box-shadow: 0 0 16px color-mix(in srgb, var(--accent) 45%, transparent); }
 }
 </style>
 </head>
@@ -146,7 +175,17 @@ footer {
 <body>
 
 <div class="container">
-  <img class="avatar" src="https://avatars.githubusercontent.com/u/256741950">
+
+  <!-- CLOCK -->
+  <div class="clock-widget">
+    <div class="clock-date" id="date">--</div>
+    <div class="clock-time">
+      <span id="h">00</span>:<span id="m">00</span>:<span id="s" class="second">00</span>
+    </div>
+    <div id="uptime">Uptime: 00:00:00</div>
+  </div>
+
+  <img class="avatar" src="https://avatars.githubusercontent.com/u/256741950" />
 
   <h1>Pham Ngoc Son</h1>
   <div class="bio">Developer | Otaku | Content Creator</div>
@@ -156,59 +195,66 @@ footer {
   <a class="link" href="https://www.tiktok.com/@k4mengxcsxn._" target="_blank">🎵 TikTok</a>
   <a class="link" href="https://www.facebook.com/iamkamengocson" target="_blank">📘 Facebook</a>
   <a class="link" href="https://www.instagram.com/itzz_.kamengocson_" target="_blank">📸 Instagram</a>
-  <a class="link" href="https://discord.com/users/" target="_blank">🎮 Discord</a>
+  <a class="link" href="https://discord.com/users/k4mengxcsxn_" target="_blank">🎮 Discord</a>
   <a class="link" href="mailto:kame.ngocson2101@gmail.com">📧 Email</a>
-
-  <div class="info">
-    <div id="clock">--:--:--</div>
-    <div id="uptime">Uptime: 00:00:00</div>
-  </div>
 
   <footer>© 2026 • Made by Kame Ngoc Son</footer>
 </div>
 
 <script>
-const clockEl = document.getElementById("clock");
+/* ===== RIPPLE ===== */
+document.querySelectorAll(".link").forEach(link => {
+  link.addEventListener("click", e => {
+    const r = document.createElement("span");
+    r.className = "ripple";
+    const rect = link.getBoundingClientRect();
+    r.style.left = e.clientX - rect.left + "px";
+    r.style.top  = e.clientY - rect.top  + "px";
+    link.appendChild(r);
+    setTimeout(() => r.remove(), 600);
+  });
+});
+
+/* ===== CLOCK ===== */
+const hEl = document.getElementById("h");
+const mEl = document.getElementById("m");
+const sEl = document.getElementById("s");
+const dateEl = document.getElementById("date");
 const uptimeEl = document.getElementById("uptime");
+
+let lastSecond = null;
 const startTime = Date.now();
 
-function animate(el) {
-  el.classList.remove("animate");
-  void el.offsetWidth;
-  el.classList.add("animate");
-}
+const days = ["Chủ nhật","Thứ Hai","Thứ Ba","Thứ Tư","Thứ Năm","Thứ Sáu","Thứ Bảy"];
 
-// CLOCK
 function updateClock() {
   const now = new Date();
-  const t =
-    String(now.getHours()).padStart(2,"0") + ":" +
-    String(now.getMinutes()).padStart(2,"0") + ":" +
-    String(now.getSeconds()).padStart(2,"0");
 
-  if (clockEl.textContent !== t) {
-    clockEl.textContent = t;
-    animate(clockEl);
+  hEl.textContent = String(now.getHours()).padStart(2,"0");
+  mEl.textContent = String(now.getMinutes()).padStart(2,"0");
+
+  const s = String(now.getSeconds()).padStart(2,"0");
+  if (s !== lastSecond) {
+    sEl.textContent = s;
+    sEl.classList.remove("tick");
+    void sEl.offsetWidth;
+    sEl.classList.add("tick");
+    lastSecond = s;
   }
-}
 
-// UPTIME
-function updateUptime() {
+  dateEl.textContent =
+    `${days[now.getDay()]}, ${now.getDate()}/${now.getMonth()+1}/${now.getFullYear()}`;
+
   const diff = Math.floor((Date.now() - startTime) / 1000);
-  const h = String(Math.floor(diff/3600)).padStart(2,"0");
-  const m = String(Math.floor(diff%3600/60)).padStart(2,"0");
-  const s = String(diff%60).padStart(2,"0");
-
-  uptimeEl.textContent = `Uptime: ${h}:${m}:${s}`;
-  animate(uptimeEl);
+  const uh = String(Math.floor(diff/3600)).padStart(2,"0");
+  const um = String(Math.floor(diff%3600/60)).padStart(2,"0");
+  const us = String(diff%60).padStart(2,"0");
+  uptimeEl.textContent = `Uptime: ${uh}:${um}:${us}`;
 }
 
 updateClock();
-updateUptime();
 setInterval(updateClock, 1000);
-setInterval(updateUptime, 1000);
 </script>
 
 </body>
 </html>
-
