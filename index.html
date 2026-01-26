@@ -14,22 +14,8 @@
   --accent: rgb(255,120,80);
 }
 
-body[data-theme="purple"] {
-  --bg: #0f0a1f;
-  --card: #1a1233;
-  --accent: rgb(180,120,255);
-}
-
-body[data-theme="neon"] {
-  --bg: #050505;
-  --card: #0c0c0c;
-  --accent: rgb(0,255,200);
-}
-
 /* ================= RESET ================= */
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
@@ -44,13 +30,14 @@ body {
 
 /* ================= CONTAINER ================= */
 .container {
-  background: rgba(255,255,255,0.03);
+  background: rgba(255,255,255,0.04);
   border-radius: 20px;
   padding: 28px;
   width: 100%;
   max-width: 420px;
   box-shadow: 0 20px 40px rgba(0,0,0,0.4);
   animation: fadeUp 0.6s ease-out;
+  text-align: center;
 }
 
 /* ================= AVATAR ================= */
@@ -62,11 +49,6 @@ body {
   border: 3px solid white;
   margin-bottom: 12px;
   animation: pulse 2.8s ease-in-out infinite;
-  transition: transform .3s ease;
-}
-
-.avatar:hover {
-  transform: rotate(-3deg) scale(1.05);
 }
 
 /* ================= TEXT ================= */
@@ -83,136 +65,74 @@ h1 {
 
 /* ================= LINK ================= */
 .link {
-  position: relative;
-  overflow: hidden;
-
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-
   text-decoration: none;
   font-weight: 600;
 
-  background: var(----card);
-  color: var(----text);
+  background: var(--card);
+  color: var(--text);
+
   padding: 15px;
   border-radius: 14px;
   margin-bottom: 14px;
 
   border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
 
-  will-change: transform;
-
-  transform:
-    perspective(600px)
-    rotateX(var(--rx, 0deg))
-    rotateY(var(--ry, 0deg))
-    translateY(0)
-    scale(1);
-
-  transition:
-    transform .18s ease,
-    box-shadow .18s ease,
-    background .18s ease;
+  transition: transform .18s ease, box-shadow .18s ease;
 }
 
-/* hover → nổi */
 .link:hover {
-  background: #2a2a3a;
   transform: scale(1.05);
   box-shadow:
-    0 0 8px rgba(255, 120, 80, 0.5),
-    0 0 18px rgba(255, 120, 80, 0.35);
-}
-  .link:active {
-  transform: scale(0.96);
-}
-
-.link.is-pressed {
-  transform: scale(0.94) !important;
-}
-
-
-.link:active {
-  transform: scale(0.96);
-}
-  /* ===== PRESS ANIMATION ===== */
-.link {
-  transition:
-    transform 0.15s ease,
-    box-shadow 0.15s ease,
-    background 0.15s ease;
+    0 0 8px rgba(255,120,80,.5),
+    0 0 18px rgba(255,120,80,.35);
 }
 
 .link:active {
-  transform: scale(0.94);
-  box-shadow:
-    inset 0 6px 12px rgba(0,0,0,0.35),
-    0 0 6px rgba(255,120,80,0.2);
+  transform: scale(.94);
 }
 
-
-/* click → đè */
-.link:active {
-  box-shadow: 0 4px 12px color-mix(in srgb, var(--accent) 35%, transparent);
-
-  transform:
-    perspective(600px)
-    rotateX(var(--rx, 0deg))
-    rotateY(var(--ry, 0deg))
-    translateY(0)
-    scale(0.96);
+/* ================= INFO ================= */
+.info {
+  margin-top: 20px;
+  font-size: 13px;
+  opacity: .8;
 }
 
-/* ============== REVEAL ============== */
-.container a.link {
-  opacity: 0;
-  animation: revealGlow .6s cubic-bezier(.2,.8,.2,1) forwards;
-  animation-delay: calc(var(--i) * .1s);
+#clock {
+  font-weight: 600;
+  letter-spacing: 1px;
 }
 
-.container a.link:nth-of-type(1) { animation-delay: .15s; }
-.container a.link:nth-of-type(2) { animation-delay: .25s; }
-.container a.link:nth-of-type(3) { animation-delay: .35s; }
-.container a.link:nth-of-type(4) { animation-delay: .45s; }
-.container a.link:nth-of-type(5) { animation-delay: .55s; }
-
-/* ===== RIPPLE CLICK (FIXED) ===== */
-.link {
-  position: relative;
-  overflow: hidden;
+#uptime {
+  margin-top: 4px;
+  font-size: 12px;
 }
 
-.link .ripple {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  pointer-events: none;
-  background: radial-gradient(
-    circle,
-    color-mix(in srgb, var(--accent) 70%, transparent) 0%,
-    transparent 70%
-  );
-  transform: translate(-50%, -50%) scale(0);
-  animation: ripple 0.6s ease-out;
-  z-index: 2;
+/* ================= NUMBER POP ================= */
+@keyframes pop {
+  0% { transform: translateY(4px) scale(.95); opacity:.4; }
+  60% { transform: translateY(0) scale(1.05); opacity:1; }
+  100% { transform: scale(1); }
 }
 
-@keyframes ripple {
-  to {
-    transform: translate(-50%, -50%) scale(12);
-    opacity: 0;
-  }
+.animate {
+  animation: pop .35s cubic-bezier(.2,.8,.2,1);
 }
 
-  <div class="info">
-  <div id="clock">--:--</div>
-  <div id="uptime">Online: 0s</div>
-</div>
+/* ================= ANIMATION ================= */
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(20px); }
+  to { opacity:1; transform:translateY(0); }
+}
+
+@keyframes pulse {
+  0%,100% { box-shadow:0 0 8px color-mix(in srgb, var(--accent) 25%, transparent); }
+  50% { box-shadow:0 0 16px color-mix(in srgb, var(--accent) 45%, transparent); }
+}
 
 /* ================= FOOTER ================= */
 footer {
@@ -220,210 +140,75 @@ footer {
   font-size: 12px;
   opacity: .6;
 }
-
-/* ================= ANIMATION ================= */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes revealGlow {
-  from {
-    opacity: 0;
-    transform: translateY(14px) scale(.96);
-    box-shadow: 0 0 0 transparent;
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    box-shadow: 0 0 14px color-mix(in srgb, var(--accent) 35%, transparent);
-  }
-}
-
-@keyframes pulse {
-  0%,100% { box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 25%, transparent); }
-  50%     { box-shadow: 0 0 16px color-mix(in srgb, var(--accent) 45%, transparent); }
-}
-
-@keyframes ripple {
-  from { transform: scale(0); opacity: .4; }
-  to   { transform: scale(2.5); opacity: 0; }
-}
-
-/* ================= MOBILE ================= */
-@media (max-width: 480px) {
-  body { padding: 16px; }
-  .container { padding: 20px; }
-  .link { font-size: 16px; padding: 18px; }
-}
-  /* ===== BONUS: tắt tilt 3D trên mobile ===== */
-@media (hover: none) {
-  .link {
-    transform: translateY(0) scale(1) !important;
-  }
-
-  /* ===== RIPPLE CLICK ===== */
-.link {
-  position: relative;
-  overflow: hidden;
-}
-
-.link .ripple {
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  pointer-events: none;
-  background: color-mix(in srgb, var(--accent) 60%, transparent);
-  transform: scale(0);
-  animation: ripple 0.6s ease-out;
-}
-
-@keyframes ripple {
-  to {
-    transform: scale(12);
-    opacity: 0;
-  }
-}
-  /* ===== INFO (CLOCK + UPTIME) ===== */
-.info {
-  margin-top: 20px;
-  text-align: center;
-  font-size: 13px;
-  opacity: 0.75;
-}
-
-#clock {
-  font-weight: 600;
-  letter-spacing: 0.5px;
-}
-
-#uptime {
-  margin-top: 4px;
-  font-size: 12px;
-  opacity: 0.8;
-}
-
-}
 </style>
-
 </head>
 
-<script>
-document.querySelectorAll(".link").forEach(link => {
-  link.addEventListener("click", e => {
-    const ripple = document.createElement("span");
-    ripple.className = "ripple";
+<body>
 
-    const rect = link.getBoundingClientRect();
-    ripple.style.left = e.clientX - rect.left + "px";
-    ripple.style.top  = e.clientY - rect.top  + "px";
-
-    link.appendChild(ripple);
-    setTimeout(() => ripple.remove(), 600);
-  });
-});
-</script>
-  <body>
 <div class="container">
-  <img class="avatar" src="https://avatars.githubusercontent.com/u/256741950" />
+  <img class="avatar" src="https://avatars.githubusercontent.com/u/256741950">
 
   <h1>Pham Ngoc Son</h1>
   <div class="bio">Developer | Otaku | Content Creator</div>
   <div class="bio">hi, i'm Kame Ngoc Son.</div>
 
- <a class="link" style="--i:1" href="https://github.com/k4mengxcsxn" target="_blank">🐙 GitHub</a>
-<a class="link" style="--i:2" href="https://www.tiktok.com/@k4mengxcsxn._" target="_blank">🎵 TikTok</a>
-<a class="link" style="--i:3" href="https://www.facebook.com/iamkamengocson" target="_blank">📘 Facebook</a>
-<a class="link" style="--i:4" href="https://www.instagram.com/itzz_.kamengocson_" target="_blank">📸 Instagram</a>
-<a class="link" style="--i:5" href="https://discord.com/users/@" target="_blank">🎮 Discord</a>
-<a class="link" style="--i:6" href="mailto:kame.ngocson2101@gmail.com">📧 Email</a>
+  <a class="link" href="https://github.com/k4mengxcsxn" target="_blank">🐙 GitHub</a>
+  <a class="link" href="https://www.tiktok.com/@k4mengxcsxn._" target="_blank">🎵 TikTok</a>
+  <a class="link" href="https://www.facebook.com/iamkamengocson" target="_blank">📘 Facebook</a>
+  <a class="link" href="https://www.instagram.com/itzz_.kamengocson_" target="_blank">📸 Instagram</a>
+  <a class="link" href="https://discord.com/users/" target="_blank">🎮 Discord</a>
+  <a class="link" href="mailto:kame.ngocson2101@gmail.com">📧 Email</a>
+
+  <div class="info">
+    <div id="clock">--:--:--</div>
+    <div id="uptime">Uptime: 00:00:00</div>
+  </div>
+
   <footer>© 2026 • Made by Kame Ngoc Son</footer>
 </div>
 
 <script>
-document.querySelectorAll(".link").forEach(link => {
-  link.addEventListener("click", e => {
-    const ripple = document.createElement("span");
-    ripple.className = "ripple";
+const clockEl = document.getElementById("clock");
+const uptimeEl = document.getElementById("uptime");
+const startTime = Date.now();
 
-    const rect = link.getBoundingClientRect();
-    ripple.style.left = e.clientX - rect.left + "px";
-    ripple.style.top  = e.clientY - rect.top  + "px";
+function animate(el) {
+  el.classList.remove("animate");
+  void el.offsetWidth;
+  el.classList.add("animate");
+}
 
-    link.appendChild(ripple);
-    setTimeout(() => ripple.remove(), 600);
-  });
-});
-</script>
-    <script>
-document.querySelectorAll(".link").forEach(link => {
-  link.addEventListener("mousedown", () => {
-    link.classList.add("is-pressed");
-  });
+// CLOCK
+function updateClock() {
+  const now = new Date();
+  const t =
+    String(now.getHours()).padStart(2,"0") + ":" +
+    String(now.getMinutes()).padStart(2,"0") + ":" +
+    String(now.getSeconds()).padStart(2,"0");
 
-  link.addEventListener("mouseup", () => {
-    link.classList.remove("is-pressed");
-  });
-
-  link.addEventListener("mouseleave", () => {
-    link.classList.remove("is-pressed");
-  });
-
-  // mobile
-  link.addEventListener("touchstart", () => {
-    link.classList.add("is-pressed");
-  });
-
-  link.addEventListener("touchend", () => {
-    link.classList.remove("is-pressed");
-  });
-});
-</script>
-
-<script>
-  const clockEl = document.getElementById('clock');
-  const uptimeEl = document.getElementById('uptime');
-
-  // ===== POP ANIMATION =====
-  function animate(el) {
-    el.classList.remove('animate');
-    void el.offsetWidth;
-    el.classList.add('animate');
+  if (clockEl.textContent !== t) {
+    clockEl.textContent = t;
+    animate(clockEl);
   }
+}
 
-  // ===== CLOCK =====
-  function updateClock() {
-    const now = new Date();
-    const h = String(now.getHours()).padStart(2, '0');
-    const m = String(now.getMinutes()).padStart(2, '0');
-    const s = String(now.getSeconds()).padStart(2, '0');
+// UPTIME
+function updateUptime() {
+  const diff = Math.floor((Date.now() - startTime) / 1000);
+  const h = String(Math.floor(diff/3600)).padStart(2,"0");
+  const m = String(Math.floor(diff%3600/60)).padStart(2,"0");
+  const s = String(diff%60).padStart(2,"0");
 
-    const newTime = `${h}:${m}:${s}`;
-    if (clockEl.textContent !== newTime) {
-      clockEl.textContent = newTime;
-      animate(clockEl);
-    }
-  }
+  uptimeEl.textContent = `Uptime: ${h}:${m}:${s}`;
+  animate(uptimeEl);
+}
 
-  setInterval(updateClock, 1000);
-  updateClock();
-
-  // ===== UPTIME =====
-  const startTime = Date.now();
-
-  function updateUptime() {
-    const diff = Math.floor((Date.now() - startTime) / 1000);
-    const h = Math.floor(diff / 3600);
-    const m = Math.floor((diff % 3600) / 60);
-    const s = diff % 60;
-
-    uptimeEl.textContent = `Uptime: ${h}h ${m}m ${s}s`;
-    animate(uptimeEl);
-  }
-
-  setInterval(updateUptime, 1000);
+updateClock();
+updateUptime();
+setInterval(updateClock, 1000);
+setInterval(updateUptime, 1000);
 </script>
 
 </body>
 </html>
+
