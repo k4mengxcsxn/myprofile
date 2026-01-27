@@ -52,7 +52,8 @@ body{
   box-shadow:0 10px 30px rgba(0,0,0,.4);
 }
 #clock{font-size:26px;font-weight:700}
-#uptime{font-size:12px;opacity:.7}
+#timezone{font-size:12px;opacity:.8}
+#uptime{font-size:11px;opacity:.6}
 
 /* ================= CONTAINER ================= */
 .container{
@@ -101,7 +102,7 @@ h1{text-align:center;margin:8px 0 4px}
 /* ================= LINK ================= */
 .link{
   position:relative;
-  overflow:visible;
+  overflow:hidden;
 
   display:flex;
   justify-content:center;
@@ -136,14 +137,13 @@ h1{text-align:center;margin:8px 0 4px}
 
 .link:active{transform:scale(.95)}
 
-/* ripple */
+/* ===== RIPPLE ===== */
 .ripple{
   position:absolute;
   width:20px;
   height:20px;
   border-radius:50%;
   pointer-events:none;
-  z-index:5;
   background:radial-gradient(circle,
     color-mix(in srgb,var(--accent) 70%,transparent),
     transparent 70%);
@@ -168,7 +168,7 @@ h1{text-align:center;margin:8px 0 4px}
 
 /* ================= ANIMATIONS ================= */
 @keyframes ripple{
-  to{transform:translate(-50%,-50%) scale(12);opacity:0}
+  to{transform:translate(-50%,-50%) scale(14);opacity:0}
 }
 @keyframes revealGlow{
   0%{opacity:0;transform:translateY(18px) scale(.96)}
@@ -199,7 +199,8 @@ h1{text-align:center;margin:8px 0 4px}
 <!-- CLOCK -->
 <div class="clock-box">
   <div id="clock">00:00:00</div>
-  <div id="uptime">GMT+7 • Asia, Vietnam, Ho Chi Minh 🇻🇳</div>
+  <div id="timezone">GMT+7 · Asia / Ho Chi Minh 🇻🇳</div>
+  <div id="uptime">Uptime: 0s</div>
 </div>
 
 <!-- PROFILE -->
@@ -213,11 +214,11 @@ h1{text-align:center;margin:8px 0 4px}
     <span id="discord-text">Loading Discord…</span>
   </div>
 
-  <a class="link" style="--i:1" href="https://github.com/k4mengxcsxn">🐙 GitHub</a>
-  <a class="link" style="--i:2" href="https://www.tiktok.com/@k4mengxcsxn._">🎵 TikTok</a>
-  <a class="link" style="--i:3" href="https://www.facebook.com/iamkamengocson">📘 Facebook</a>
-  <a class="link" style="--i:4" href="https://www.instagram.com/itzz_.kamengocson_">📸 Instagram</a>
-  <a class="link" style="--i:5" href="https://discord.com/users/1216226389582282842">🎮 Discord</a>
+  <a class="link" style="--i:1" href="https://github.com/k4mengxcsxn" target="_blank">🐙 GitHub</a>
+  <a class="link" style="--i:2" href="https://www.tiktok.com/@k4mengxcsxn._" target="_blank">🎵 TikTok</a>
+  <a class="link" style="--i:3" href="https://www.facebook.com/iamkamengocson" target="_blank">📘 Facebook</a>
+  <a class="link" style="--i:4" href="https://www.instagram.com/itzz_.kamengocson_" target="_blank">📸 Instagram</a>
+  <a class="link" style="--i:5" href="https://discord.com/users/k4mengxcsxn_" target="_blank">🎮 Discord</a>
   <a class="link" style="--i:6" href="mailto:kame.ngocson2101@gmail.com">📧 Email</a>
 
   <div class="controls">
@@ -226,35 +227,30 @@ h1{text-align:center;margin:8px 0 4px}
 </div>
 
 <script>
-/* ===== RIPPLE CLICK (FULL FIX) ===== */
+/* ===== RIPPLE CLICK (DESKTOP + MOBILE) ===== */
 document.querySelectorAll(".link").forEach(link=>{
-  link.addEventListener("click",e=>{
-    e.preventDefault();
-
-    const ripple=document.createElement("span");
-    ripple.className="ripple";
-
+  link.addEventListener("pointerdown",e=>{
+    const r=document.createElement("span");
+    r.className="ripple";
     const rect=link.getBoundingClientRect();
-    ripple.style.left=e.clientX-rect.left+"px";
-    ripple.style.top=e.clientY-rect.top+"px";
-
-    link.appendChild(ripple);
-
-    setTimeout(()=>{
-      ripple.remove();
-      window.open(link.href,"_blank");
-    },420);
+    r.style.left=e.clientX-rect.left+"px";
+    r.style.top=e.clientY-rect.top+"px";
+    link.appendChild(r);
+    setTimeout(()=>r.remove(),600);
   });
 });
 
 /* ===== CLOCK ===== */
 const clock=document.getElementById("clock");
+const uptime=document.getElementById("uptime");
+const start=Date.now();
 setInterval(()=>{
   const n=new Date();
   clock.textContent=
     String(n.getHours()).padStart(2,"0")+":"+
     String(n.getMinutes()).padStart(2,"0")+":"+
     String(n.getSeconds()).padStart(2,"0");
+  uptime.textContent=`Uptime: ${Math.floor((Date.now()-start)/1000)}s`;
 },1000);
 
 /* ===== THEME ===== */
@@ -265,12 +261,11 @@ function switchTheme(){
   document.body.dataset.theme=themes[idx]==="default"?"":themes[idx];
 }
 
-/* ===== DISCORD STATUS ===== */
+/* ===== DISCORD STATUS (REALTIME) ===== */
 async function loadDiscord(){
   try{
     const res=await fetch("https://api.lanyard.rest/v1/users/1216226389582282842");
     const d=(await res.json()).data;
-
     const dot=document.getElementById("dot");
     const text=document.getElementById("discord-text");
 
