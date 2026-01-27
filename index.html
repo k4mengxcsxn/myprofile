@@ -15,9 +15,7 @@
 }
 
 /* ================= RESET ================= */
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
@@ -48,7 +46,7 @@ body {
   border-radius: 50%;
   object-fit: cover;
   border: 3px solid white;
-  margin: 12px auto;
+  margin: 14px auto;
   display: block;
   animation: pulse 3s infinite;
 }
@@ -89,17 +87,34 @@ h1 {
   margin-bottom: 14px;
 
   border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
-  transition: all .18s ease;
+  transition: transform .18s ease, box-shadow .18s ease;
 }
 
 .link:hover {
   transform: scale(1.05);
-  box-shadow:
-    0 0 10px color-mix(in srgb, var(--accent) 50%, transparent);
+  box-shadow: 0 0 12px rgba(255,120,80,.55);
 }
 
 .link:active {
   transform: scale(.94);
+}
+
+/* ================= RIPPLE ================= */
+.link .ripple {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(
+    circle,
+    rgba(255,120,80,.6) 0%,
+    rgba(255,120,80,.3) 40%,
+    transparent 70%
+  );
+  transform: translate(-50%, -50%) scale(0);
+  animation: ripple .6s ease-out;
+  z-index: 5;
 }
 
 /* ================= REVEAL ================= */
@@ -129,26 +144,29 @@ h1 {
   font-weight: 700;
 }
 
+.clock-time span {
+  display: inline-block;
+  min-width: 20px;
+}
+
+.second.tick {
+  animation: secondTick .18s steps(1,end);
+}
+
 #uptime {
   font-size: 12px;
   opacity: .7;
 }
 
-/* ================= ANIMATION ================= */
+/* ================= ANIMATIONS ================= */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes revealGlow {
-  from {
-    opacity: 0;
-    transform: translateY(12px) scale(.96);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
+  from { opacity: 0; transform: translateY(12px) scale(.96); }
+  to { opacity: 1; transform: none; }
 }
 
 @keyframes pulse {
@@ -156,7 +174,19 @@ h1 {
   50% { box-shadow: 0 0 16px rgba(255,120,80,.55); }
 }
 
-/* ================= MOBILE LAYOUT ================= */
+@keyframes ripple {
+  to {
+    transform: translate(-50%, -50%) scale(14);
+    opacity: 0;
+  }
+}
+
+@keyframes secondTick {
+  from { transform: translateY(-2px); opacity: .6; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* ================= MOBILE ================= */
 @media (max-width: 480px) {
 
   body {
@@ -178,15 +208,11 @@ h1 {
     margin-top: 36px;
   }
 
-  h1 {
-    font-size: 20px;
-  }
+  h1 { font-size: 20px; }
 
-  .bio {
-    font-size: 13px;
-  }
+  .bio { font-size: 13px; }
 
-  /* ✅ 2 link / hàng */
+  /* 2 link / hàng */
   .links {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -199,14 +225,8 @@ h1 {
     padding: 14px;
   }
 
-  /* clock nhỏ lại */
-  .clock-time {
-    font-size: 22px;
-  }
-
-  #uptime {
-    font-size: 10px;
-  }
+  .clock-time { font-size: 22px; }
+  #uptime { font-size: 10px; }
 }
 </style>
 </head>
@@ -215,7 +235,11 @@ h1 {
 
 <!-- CLOCK -->
 <div class="clock-widget">
-  <div class="clock-time" id="clock">--:--:--</div>
+  <div class="clock-time">
+    <span id="h">00</span>:
+    <span id="m">00</span>:
+    <span id="s" class="second">00</span>
+  </div>
   <div id="uptime">Uptime: 0s</div>
 </div>
 
@@ -240,19 +264,52 @@ h1 {
 </div>
 
 <script>
-/* CLOCK + UPTIME */
-const clockEl = document.getElementById('clock');
+/* ===== RIPPLE CLICK ===== */
+document.querySelectorAll('.link').forEach(link => {
+  link.addEventListener('click', e => {
+    const ripple = document.createElement('span');
+    ripple.className = 'ripple';
+
+    const rect = link.getBoundingClientRect();
+    ripple.style.left = (e.clientX - rect.left) + 'px';
+    ripple.style.top  = (e.clientY - rect.top) + 'px';
+
+    link.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 600);
+  });
+});
+
+/* ===== CLOCK + SECOND TICK ===== */
+const hEl = document.getElementById('h');
+const mEl = document.getElementById('m');
+const sEl = document.getElementById('s');
 const uptimeEl = document.getElementById('uptime');
 const start = Date.now();
+let lastSecond = null;
 
-setInterval(() => {
+function updateClock() {
   const d = new Date();
-  clockEl.textContent =
-    d.toLocaleTimeString('vi-VN', { hour12:false });
+  const h = String(d.getHours()).padStart(2,'0');
+  const m = String(d.getMinutes()).padStart(2,'0');
+  const s = String(d.getSeconds()).padStart(2,'0');
 
-  const diff = Math.floor((Date.now() - start)/1000);
+  hEl.textContent = h;
+  mEl.textContent = m;
+
+  if (s !== lastSecond) {
+    sEl.textContent = s;
+    sEl.classList.remove('tick');
+    void sEl.offsetWidth;
+    sEl.classList.add('tick');
+    lastSecond = s;
+  }
+
+  const diff = Math.floor((Date.now() - start) / 1000);
   uptimeEl.textContent = `Uptime: ${diff}s`;
-}, 1000);
+}
+
+updateClock();
+setInterval(updateClock, 1000);
 </script>
 
 </body>
