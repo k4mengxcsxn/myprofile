@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8">
 <title>myprofileishere</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+/* ================= THEME ================= */
 :root{
   --bg:#0e0e14;
   --card:#181825;
@@ -13,7 +14,6 @@
   --accent:rgb(255,120,80);
 }
 
-/* THEMES */
 body[data-theme="purple"]{
   --bg:#120c24;
   --card:#1d1438;
@@ -33,13 +33,13 @@ body{
   display:flex;
   justify-content:center;
   align-items:center;
-  font-family:system-ui,sans-serif;
   background:linear-gradient(135deg,#0f0f13,#1a1a22);
   color:var(--text);
+  font-family:system-ui,sans-serif;
   padding:24px;
 }
 
-/* ===== CLOCK ===== */
+/* ================= CLOCK ================= */
 .clock-box{
   position:fixed;
   top:24px;
@@ -52,10 +52,9 @@ body{
   box-shadow:0 10px 30px rgba(0,0,0,.4);
 }
 #clock{font-size:26px;font-weight:700}
-#sec{display:inline-block}
-#uptime{font-size:12px;opacity:.7;margin-top:4px}
+#uptime{font-size:12px;opacity:.7}
 
-/* ===== CONTAINER ===== */
+/* ================= CONTAINER ================= */
 .container{
   width:100%;
   max-width:420px;
@@ -66,29 +65,29 @@ body{
   animation:fadeUp .6s ease;
 }
 
-/* ===== AVATAR ===== */
+/* ================= AVATAR ================= */
 .avatar{
   width:100px;
   height:100px;
   border-radius:50%;
   object-fit:cover;
   border:3px solid white;
-  margin:0 auto 12px;
   display:block;
+  margin:0 auto 12px;
   animation:pulse 3s infinite;
 }
 
-/* ===== TEXT ===== */
+/* ================= TEXT ================= */
 h1{text-align:center;margin:8px 0 4px}
 .bio{text-align:center;font-size:14px;opacity:.85}
 
-/* ===== DISCORD STATUS ===== */
+/* ================= DISCORD STATUS ================= */
 .status{
   display:flex;
   align-items:center;
   justify-content:center;
   gap:8px;
-  margin:10px 0 16px;
+  margin:12px 0 18px;
   font-size:13px;
 }
 .dot{
@@ -99,29 +98,57 @@ h1{text-align:center;margin:8px 0 4px}
   box-shadow:0 0 6px currentColor;
 }
 
-/* ===== LINKS ===== */
+/* ================= LINK ================= */
 .link{
   position:relative;
-  overflow:hidden;
+  overflow:visible;
+
   display:flex;
   justify-content:center;
   align-items:center;
   gap:10px;
+
   margin-top:14px;
   padding:15px;
   border-radius:14px;
+
   text-decoration:none;
   font-weight:600;
-  color:white;
-  background:#222233;
+  color:var(--text);
+
+  background:color-mix(in srgb,var(--card) 85%,black);
   border:1px solid color-mix(in srgb,var(--accent) 35%,transparent);
+
+  opacity:0;
+  transform:translateY(18px) scale(.96);
+  animation:revealGlow .7s cubic-bezier(.2,.8,.2,1) forwards;
+  animation-delay:calc(var(--i) * .12s);
+
   transition:.18s ease;
 }
+
 .link:hover{
-  transform:scale(1.05);
-  box-shadow:0 0 14px color-mix(in srgb,var(--accent) 40%,transparent);
+  transform:scale(1.06);
+  box-shadow:
+    0 0 14px color-mix(in srgb,var(--accent) 55%,transparent),
+    0 0 28px color-mix(in srgb,var(--accent) 35%,transparent);
 }
-.link:active{transform:scale(.96)}
+
+.link:active{transform:scale(.95)}
+
+/* click glow */
+.link::after{
+  content:"";
+  position:absolute;
+  inset:-8px;
+  border-radius:18px;
+  opacity:0;
+  pointer-events:none;
+}
+
+.link:active::after{
+  animation:clickGlow .45s ease-out;
+}
 
 /* ripple */
 .ripple{
@@ -129,20 +156,18 @@ h1{text-align:center;margin:8px 0 4px}
   width:20px;
   height:20px;
   border-radius:50%;
+  pointer-events:none;
   background:radial-gradient(circle,
     color-mix(in srgb,var(--accent) 70%,transparent),
     transparent 70%);
   transform:translate(-50%,-50%) scale(0);
   animation:ripple .6s ease-out;
-  pointer-events:none;
 }
 
-/* ===== CONTROLS ===== */
+/* ================= CONTROLS ================= */
 .controls{
   display:flex;
   justify-content:center;
-  align-items:center;
-  gap:12px;
   margin-top:20px;
 }
 .control-btn{
@@ -150,23 +175,45 @@ h1{text-align:center;margin:8px 0 4px}
   color:white;
   border:none;
   border-radius:10px;
-  padding:10px 12px;
+  padding:10px 14px;
   cursor:pointer;
 }
-#volume{
-  width:90px;
-  accent-color:var(--accent);
-}
 
-/* ===== ANIMATION ===== */
-@keyframes ripple{to{transform:translate(-50%,-50%) scale(12);opacity:0}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1}}
+/* ================= ANIMATIONS ================= */
+@keyframes ripple{
+  to{transform:translate(-50%,-50%) scale(12);opacity:0}
+}
+@keyframes clickGlow{
+  0%{
+    opacity:.8;
+    box-shadow:0 0 0 transparent;
+  }
+  60%{
+    opacity:.9;
+    box-shadow:
+      0 0 26px color-mix(in srgb,var(--accent) 65%,transparent),
+      0 0 46px color-mix(in srgb,var(--accent) 35%,transparent);
+  }
+  100%{
+    opacity:0;
+    box-shadow:0 0 60px transparent;
+  }
+}
+@keyframes revealGlow{
+  0%{opacity:0;transform:translateY(18px) scale(.96)}
+  70%{opacity:1;transform:translateY(0) scale(1.03)}
+  100%{opacity:1;transform:translateY(0) scale(1)}
+}
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1}
+}
 @keyframes pulse{
   0%,100%{box-shadow:0 0 10px rgba(255,120,80,.3)}
   50%{box-shadow:0 0 20px rgba(255,120,80,.6)}
 }
 
-/* ===== MOBILE ===== */
+/* ================= MOBILE ================= */
 @media(max-width:480px){
   body{padding:16px;align-items:flex-start}
   .clock-box{top:16px;right:16px;padding:10px 14px}
@@ -180,15 +227,13 @@ h1{text-align:center;margin:8px 0 4px}
 
 <!-- CLOCK -->
 <div class="clock-box">
-  <div id="clock">
-    <span id="hh">00</span>:<span id="mm">00</span>:<span id="sec">00</span>
-  </div>
+  <div id="clock">00:00:00</div>
   <div id="uptime">Uptime: 0s</div>
 </div>
 
 <!-- PROFILE -->
 <div class="container">
-  <img class="avatar" src="https://avatars.githubusercontent.com/u/256741950"/>
+  <img class="avatar" src="https://avatars.githubusercontent.com/u/256741950">
   <h1>Pham Ngoc Son</h1>
   <div class="bio">Developer | Otaku | Content Creator</div>
 
@@ -197,16 +242,17 @@ h1{text-align:center;margin:8px 0 4px}
     <span id="discord-text">Loading Discord…</span>
   </div>
 
-  <a class="link" href="https://github.com/k4mengxcsxn" target="_blank">🐙 GitHub</a>
-    <a class="link" href="https://www.tiktok.com/@k4mengxcsxn._" target="_blank">🎵 TikTok</a>
-    <a class="link" href="https://www.facebook.com/iamkamengocson" target="_blank">📘 Facebook</a>
-    <a class="link" href="https://www.instagram.com/itzz_.kamengocson_" target="_blank">📸 Instagram</a>
-    <a class="link" href="https://discord.com/users/k4mengxcsxn_" target="_blank">🎮 Discord</a>
-    <a class="link" href="mailto:kame.ngocson2101@gmail.com">📧 Email</a>
+  <a class="link" style="--i:1" href="https://github.com/k4mengxcsxn" target="_blank">🐙 GitHub</a>
+  <a class="link" style="--i:2" href="https://www.tiktok.com/@k4mengxcsxn._" target="_blank">🎵 TikTok</a>
+  <a class="link" style="--i:3" href="https://www.facebook.com/iamkamengocson" target="_blank">📘 Facebook</a>
+  <a class="link" style="--i:4" href="https://www.instagram.com/itzz_.kamengocson_" target="_blank">📸 Instagram</a>
+  <a class="link" style="--i:5" href="https://discord.com/users/k4mengxcsxn_" target="_blank">🎮 Discord</a>
+  <a class="link" style="--i:6" href="mailto:kame.ngocson2101@gmail.com">📧 Email</a>
 
   <div class="controls">
-    <button class="control-btn" onclick="switchTheme()">🎨</button>
+    <button class="control-btn" onclick="switchTheme()">🎨 Theme</button>
   </div>
+</div>
 
 <script>
 /* RIPPLE */
@@ -223,16 +269,15 @@ document.querySelectorAll(".link").forEach(link=>{
 });
 
 /* CLOCK */
-const hh=document.getElementById("hh");
-const mm=document.getElementById("mm");
-const ss=document.getElementById("sec");
+const clock=document.getElementById("clock");
 const uptime=document.getElementById("uptime");
 const start=Date.now();
 setInterval(()=>{
   const n=new Date();
-  hh.textContent=String(n.getHours()).padStart(2,"0");
-  mm.textContent=String(n.getMinutes()).padStart(2,"0");
-  ss.textContent=String(n.getSeconds()).padStart(2,"0");
+  clock.textContent=
+    String(n.getHours()).padStart(2,"0")+":"+
+    String(n.getMinutes()).padStart(2,"0")+":"+
+    String(n.getSeconds()).padStart(2,"0");
   uptime.textContent=`Uptime: ${Math.floor((Date.now()-start)/1000)}s`;
 },1000);
 
@@ -244,7 +289,7 @@ function switchTheme(){
   document.body.dataset.theme=themes[idx]==="default"?"":themes[idx];
 }
 
-/* DISCORD STATUS (LANYARD) */
+/* DISCORD STATUS */
 async function loadDiscord(){
   const res=await fetch("https://api.lanyard.rest/v1/users/1216226389582282842");
   const d=(await res.json()).data;
@@ -261,10 +306,11 @@ async function loadDiscord(){
 
   dot.style.background=colors[d.discord_status];
   dot.style.color=colors[d.discord_status];
+
   text.textContent=
     d.listening_to_spotify
-    ? "Listening to Spotify 🎧"
-    : d.activities[0]?.name || d.discord_status;
+      ? "Listening to Spotify 🎧"
+      : d.activities[0]?.name || d.discord_status;
 }
 
 loadDiscord();
