@@ -2,285 +2,239 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8" />
-<title>myprofileishere</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Bio Link</title>
 
 <style>
-:root{
-  --bg:#0e0e14;
-  --card:#181825;
-  --text:#fff;
-  --accent:rgb(255,120,80);
+/* ===== RESET ===== */
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
-/* THEMES */
-body[data-theme="purple"]{
-  --bg:#120c24;
-  --card:#1d1438;
-  --accent:rgb(180,120,255);
-}
-body[data-theme="neon"]{
-  --bg:#050505;
-  --card:#0c0c0c;
-  --accent:rgb(0,255,200);
-}
-
-*{box-sizing:border-box}
-
-body{
-  margin:0;
-  min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-family:system-ui,sans-serif;
-  background:linear-gradient(135deg,#0f0f13,#1a1a22);
-  color:var(--text);
-  padding:24px;
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(1200px at top, #0f172a, #020617);
+  color: #e5e7eb;
+  font-family: system-ui, sans-serif;
 }
 
-/* ===== CLOCK ===== */
-.clock-box{
-  position:fixed;
-  top:24px;
-  right:24px;
-  background:rgba(0,0,0,.35);
-  backdrop-filter:blur(10px);
-  padding:14px 18px;
-  border-radius:14px;
-  text-align:center;
-  box-shadow:0 10px 30px rgba(0,0,0,.4);
+/* ===== LAYOUT ===== */
+.wrapper {
+  width: 100%;
+  max-width: 420px;
+  padding: 18px;
 }
-#clock{font-size:26px;font-weight:700}
-#sec{display:inline-block}
-#uptime{font-size:12px;opacity:.7;margin-top:4px}
+
+/* CLOCK OUTSIDE (desktop & mobile) */
+.clock-widget {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.clock {
+  font-size: 42px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.ticks {
+  font-size: 12px;
+  opacity: .7;
+}
 
 /* ===== CONTAINER ===== */
-.container{
-  width:100%;
-  max-width:420px;
-  background:rgba(255,255,255,.03);
-  border-radius:20px;
-  padding:28px;
-  box-shadow:0 20px 40px rgba(0,0,0,.45);
-  animation:fadeUp .6s ease;
-}
-
-/* ===== AVATAR ===== */
-.avatar{
-  width:100px;
-  height:100px;
-  border-radius:50%;
-  object-fit:cover;
-  border:3px solid white;
-  margin:0 auto 12px;
-  display:block;
-  animation:pulse 3s infinite;
-}
-
-/* ===== TEXT ===== */
-h1{text-align:center;margin:8px 0 4px}
-.bio{text-align:center;font-size:14px;opacity:.85}
-
-/* ===== DISCORD STATUS ===== */
-.status{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  margin:10px 0 16px;
-  font-size:13px;
-}
-.dot{
-  width:10px;
-  height:10px;
-  border-radius:50%;
-  background:#777;
-  box-shadow:0 0 6px currentColor;
+.container {
+  background: rgba(255,255,255,.06);
+  border-radius: 22px;
+  padding: 20px;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 25px 60px rgba(0,0,0,.4);
 }
 
 /* ===== LINKS ===== */
-.link{
-  position:relative;
-  overflow:hidden;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:10px;
-  margin-top:14px;
-  padding:15px;
-  border-radius:14px;
-  text-decoration:none;
-  font-weight:600;
-  color:white;
-  background:#222233;
-  border:1px solid color-mix(in srgb,var(--accent) 35%,transparent);
-  transition:.18s ease;
-}
-.link:hover{
-  transform:scale(1.05);
-  box-shadow:0 0 14px color-mix(in srgb,var(--accent) 40%,transparent);
-}
-.link:active{transform:scale(.96)}
-
-/* ripple */
-.ripple{
-  position:absolute;
-  width:20px;
-  height:20px;
-  border-radius:50%;
-  background:radial-gradient(circle,
-    color-mix(in srgb,var(--accent) 70%,transparent),
-    transparent 70%);
-  transform:translate(-50%,-50%) scale(0);
-  animation:ripple .6s ease-out;
-  pointer-events:none;
+.link {
+  display: block;
+  padding: 14px 16px;
+  border-radius: 14px;
+  margin-bottom: 12px;
+  text-decoration: none;
+  color: #fff;
+  background: linear-gradient(135deg, rgba(255,255,255,.14), rgba(255,255,255,.05));
+  transition: transform .15s ease, box-shadow .15s ease;
+  position: relative;
+  overflow: hidden;
 }
 
-/* ===== CONTROLS ===== */
-.controls{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:12px;
-  margin-top:20px;
-}
-.control-btn{
-  background:var(--card);
-  color:white;
-  border:none;
-  border-radius:10px;
-  padding:10px 12px;
-  cursor:pointer;
-}
-#volume{
-  width:90px;
-  accent-color:var(--accent);
+.link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0,0,0,.35);
 }
 
-/* ===== ANIMATION ===== */
-@keyframes ripple{to{transform:translate(-50%,-50%) scale(12);opacity:0}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1}}
-@keyframes pulse{
-  0%,100%{box-shadow:0 0 10px rgba(255,120,80,.3)}
-  50%{box-shadow:0 0 20px rgba(255,120,80,.6)}
+.link:active {
+  transform: scale(.96);
+}
+
+/* ===== RIPPLE ===== */
+.link span.ripple {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  animation: ripple .6s linear;
+  background: rgba(255,255,255,.35);
+}
+
+@keyframes ripple {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* ===== MUSIC ===== */
+.music {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.music button {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.music input {
+  flex: 1;
 }
 
 /* ===== MOBILE ===== */
-@media(max-width:480px){
-  body{padding:16px;align-items:flex-start}
-  .clock-box{top:16px;right:16px;padding:10px 14px}
-  #clock{font-size:18px}
-  .container{margin-top:80px;padding:22px}
+@media (max-width: 480px){
+  .clock {
+    font-size: 32px;
+  }
+  .wrapper {
+    padding: 14px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<!-- CLOCK -->
-<div class="clock-box">
-  <div id="clock">
-    <span id="hh">00</span>:<span id="mm">00</span>:<span id="sec">00</span>
-  </div>
-  <div id="uptime">Uptime: 0s</div>
-</div>
+<div class="wrapper">
 
-<!-- PROFILE -->
-<div class="container">
-  <img class="avatar" src="https://avatars.githubusercontent.com/u/256741950"/>
-  <h1>Pham Ngoc Son</h1>
-  <div class="bio">Developer | Otaku | Content Creator</div>
-
-  <div class="status">
-    <span class="dot" id="dot"></span>
-    <span id="discord-text">Loading Discord…</span>
+  <!-- CLOCK -->
+  <div class="clock-widget">
+    <div class="clock" id="clock">00:00:00</div>
+    <div class="ticks">LIVE</div>
   </div>
-  <a class="link" href="https://github.com/k4mengxcsxn" target="_blank">🐙 GitHub</a>
+
+  <!-- MAIN -->
+  <div class="container">
+
+   <a class="link" href="https://github.com/k4mengxcsxn" target="_blank">🐙 GitHub</a>
     <a class="link" href="https://www.tiktok.com/@k4mengxcsxn._" target="_blank">🎵 TikTok</a>
     <a class="link" href="https://www.facebook.com/iamkamengocson" target="_blank">📘 Facebook</a>
     <a class="link" href="https://www.instagram.com/itzz_.kamengocson_" target="_blank">📸 Instagram</a>
     <a class="link" href="https://discord.com/users/k4mengxcsxn_" target="_blank">🎮 Discord</a>
     <a class="link" href="mailto:kame.ngocson2101@gmail.com">📧 Email</a>
-  <div class="controls">
-    <button class="control-btn" onclick="toggleMusic()">🎵</button>
-    <input id="volume" type="range" min="0" max="1" step="0.01" value="0.4">
-    <button class="control-btn" onclick="switchTheme()">🎨</button>
+
+    <!-- MUSIC -->
+    <div class="music">
+      <button id="musicBtn">🎵</button>
+      <input id="volume" type="range" min="0" max="1" step="0.01">
+    </div>
+
   </div>
 </div>
 
+<!-- AUDIO -->
 <audio id="bgm" loop>
-  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_47e8f90a59.mp3">
+  <source src="music.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-/* RIPPLE */
-document.querySelectorAll(".link").forEach(link=>{
-  link.addEventListener("click",e=>{
+/* ===== CLOCK ===== */
+function updateClock(){
+  const n=new Date();
+  clock.textContent =
+    n.toLocaleTimeString("vi-VN",{hour12:false});
+}
+setInterval(updateClock,1000);
+updateClock();
+
+/* ===== RIPPLE ===== */
+document.querySelectorAll(".link").forEach(btn=>{
+  btn.addEventListener("click",e=>{
     const r=document.createElement("span");
     r.className="ripple";
-    const rect=link.getBoundingClientRect();
-    r.style.left=e.clientX-rect.left+"px";
-    r.style.top=e.clientY-rect.top+"px";
-    link.appendChild(r);
+    r.style.left=e.offsetX+"px";
+    r.style.top=e.offsetY+"px";
+    btn.appendChild(r);
     setTimeout(()=>r.remove(),600);
   });
 });
 
-/* CLOCK */
-const hh=document.getElementById("hh");
-const mm=document.getElementById("mm");
-const ss=document.getElementById("sec");
-const uptime=document.getElementById("uptime");
-const start=Date.now();
-setInterval(()=>{
-  const n=new Date();
-  hh.textContent=String(n.getHours()).padStart(2,"0");
-  mm.textContent=String(n.getMinutes()).padStart(2,"0");
-  ss.textContent=String(n.getSeconds()).padStart(2,"0");
-  uptime.textContent=`Uptime: ${Math.floor((Date.now()-start)/1000)}s`;
-},1000);
+/* ===== MUSIC ===== */
+const bgm = document.getElementById("bgm");
+const musicBtn = document.getElementById("musicBtn");
+const volume = document.getElementById("volume");
 
-/* MUSIC */
-const bgm=document.getElementById("bgm");
-const volume=document.getElementById("volume");
-bgm.volume=volume.value;
-function toggleMusic(){bgm.paused?bgm.play():bgm.pause()}
-volume.oninput=()=>bgm.volume=volume.value;
+/* load volume */
+volume.value = localStorage.bgmVol ?? .4;
+bgm.volume = volume.value;
 
-/* THEME */
-const themes=["default","purple","neon"];
-let idx=0;
-function switchTheme(){
-  idx=(idx+1)%themes.length;
-  document.body.dataset.theme=themes[idx]==="default"?"":themes[idx];
+/* fade helpers */
+function fade(to){
+  let i=setInterval(()=>{
+    bgm.volume += (to - bgm.volume)*0.1;
+    if(Math.abs(bgm.volume-to)<.02){
+      bgm.volume=to;
+      clearInterval(i);
+    }
+  },30);
 }
 
-/* DISCORD STATUS (LANYARD) */
-async function loadDiscord(){
-  const res=await fetch("https://api.lanyard.rest/v1/users/1216226389582282842");
-  const d=(await res.json()).data;
-
-  const dot=document.getElementById("dot");
-  const text=document.getElementById("discord-text");
-
-  const colors={
-    online:"#3ba55d",
-    idle:"#faa61a",
-    dnd:"#ed4245",
-    offline:"#747f8d"
-  };
-
-  dot.style.background=colors[d.discord_status];
-  dot.style.color=colors[d.discord_status];
-  text.textContent=
-    d.listening_to_spotify
-    ? "Listening to Spotify 🎧"
-    : d.activities[0]?.name || d.discord_status;
+/* toggle */
+function toggleMusic(){
+  if(bgm.paused){
+    bgm.play();
+    fade(volume.value);
+    musicBtn.textContent="⏸";
+  } else {
+    fade(0);
+    setTimeout(()=>bgm.pause(),400);
+    musicBtn.textContent="🎵";
+  }
 }
 
-loadDiscord();
-setInterval(loadDiscord,15000);
+musicBtn.onclick = toggleMusic;
+
+/* volume save */
+volume.oninput = ()=>{
+  bgm.volume = volume.value;
+  localStorage.bgmVol = volume.value;
+};
+
+/* autoplay unlock */
+let unlocked=false;
+document.addEventListener("click",()=>{
+  if(unlocked) return;
+  bgm.volume=0;
+  bgm.play().then(()=>fade(volume.value));
+  musicBtn.textContent="⏸";
+  unlocked=true;
+});
 </script>
 
 </body>
