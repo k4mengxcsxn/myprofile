@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
 <style>
+/* ================= THEME ================= */
 :root {
   --bg: #0e0e14;
   --card: #181825;
@@ -13,247 +14,245 @@
   --accent: rgb(255,120,80);
 }
 
-/* ===== RESET ===== */
-* { box-sizing: border-box; }
+/* ================= RESET ================= */
+* {
+  box-sizing: border-box;
+}
 
 body {
   margin: 0;
   min-height: 100vh;
   display: flex;
-  align-items: center;
   justify-content: center;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  align-items: center;
+  font-family: system-ui, sans-serif;
   background: linear-gradient(135deg, #0f0f13, #1a1a22);
   color: var(--text);
 }
 
-/* ===== CARD ===== */
+/* ================= CONTAINER ================= */
 .container {
-  position: relative;
-  background: rgba(255,255,255,0.035);
+  background: rgba(255,255,255,0.04);
   border-radius: 22px;
-  padding: 34px 28px 28px;
+  padding: 28px;
   width: 100%;
   max-width: 420px;
-  box-shadow: 0 20px 45px rgba(0,0,0,0.45);
-  animation: fadeUp .6s ease-out;
+  box-shadow: 0 20px 40px rgba(0,0,0,.45);
+  animation: fadeUp .6s ease;
 }
 
-/* ===== CLOCK WIDGET ===== */
-.clock-widget {
-  position: absolute;
-  top: 16px;
-  right: 18px;
-  text-align: right;
-  user-select: none;
-}
-
-.clock-date {
-  font-size: 11px;
-  opacity: .7;
-  letter-spacing: .4px;
-  margin-bottom: 2px;
-}
-
-.clock-time {
-  font-size: 30px;
-  font-weight: 700;
-  letter-spacing: 1.2px;
-}
-
-.clock-time span {
-  display: inline-block;
-  min-width: 24px;
-}
-
-.second.tick {
-  animation: tick .18s steps(1, end);
-}
-
-@keyframes tick {
-  from { transform: translateY(-3px); opacity: .55; }
-  to   { transform: translateY(0); opacity: 1; }
-}
-
-#uptime {
-  font-size: 11px;
-  opacity: .65;
-  margin-top: 2px;
-}
-
-/* ===== AVATAR ===== */
+/* ================= AVATAR ================= */
 .avatar {
   width: 96px;
   height: 96px;
   border-radius: 50%;
   object-fit: cover;
   border: 3px solid white;
-  margin: 14px auto;
+  margin: 12px auto;
   display: block;
-  animation: pulse 2.8s ease-in-out infinite;
+  animation: pulse 3s infinite;
 }
 
-/* ===== TEXT ===== */
+/* ================= TEXT ================= */
 h1 {
-  margin: 8px 0 4px;
-  font-size: 24px;
   text-align: center;
+  margin: 8px 0 4px;
 }
 
 .bio {
+  text-align: center;
   font-size: 14px;
   opacity: .85;
-  margin-bottom: 6px;
-  text-align: center;
 }
 
-/* ===== LINKS ===== */
+/* ================= LINKS ================= */
+.links {
+  margin-top: 22px;
+}
+
 .link {
   position: relative;
   overflow: hidden;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  text-decoration: none;
-  font-weight: 600;
+  gap: 8px;
+
   background: var(--card);
   color: var(--text);
+  text-decoration: none;
+  font-weight: 600;
+
   padding: 15px;
-  border-radius: 14px;
+  border-radius: 16px;
   margin-bottom: 14px;
+
   border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
-  transition: transform .15s ease, box-shadow .15s ease;
+  transition: all .18s ease;
 }
 
 .link:hover {
   transform: scale(1.05);
-  box-shadow: 0 0 14px color-mix(in srgb, var(--accent) 40%, transparent);
+  box-shadow:
+    0 0 10px color-mix(in srgb, var(--accent) 50%, transparent);
 }
 
 .link:active {
-  transform: scale(0.94);
+  transform: scale(.94);
 }
 
-/* ===== RIPPLE ===== */
-.link .ripple {
-  position: absolute;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  pointer-events: none;
-  background: color-mix(in srgb, var(--accent) 60%, transparent);
-  transform: translate(-50%, -50%) scale(0);
-  animation: ripple .6s ease-out;
+/* ================= REVEAL ================= */
+.container .link {
+  opacity: 0;
+  animation: revealGlow .6s cubic-bezier(.2,.8,.2,1) forwards;
 }
 
-@keyframes ripple {
-  to { transform: translate(-50%, -50%) scale(12); opacity: 0; }
+.container .link:nth-child(1){animation-delay:.15s}
+.container .link:nth-child(2){animation-delay:.25s}
+.container .link:nth-child(3){animation-delay:.35s}
+.container .link:nth-child(4){animation-delay:.45s}
+.container .link:nth-child(5){animation-delay:.55s}
+.container .link:nth-child(6){animation-delay:.65s}
+
+/* ================= CLOCK ================= */
+.clock-widget {
+  position: fixed;
+  top: 18px;
+  right: 20px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
 }
 
-/* ===== FOOTER ===== */
-footer {
-  margin-top: 20px;
+.clock-time {
+  font-size: 32px;
+  font-weight: 700;
+}
+
+#uptime {
   font-size: 12px;
-  opacity: .6;
-  text-align: center;
+  opacity: .7;
 }
 
-/* ===== ANIMATION ===== */
+/* ================= ANIMATION ================= */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes revealGlow {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 @keyframes pulse {
-  0%,100% { box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 25%, transparent); }
-  50%     { box-shadow: 0 0 16px color-mix(in srgb, var(--accent) 45%, transparent); }
+  0%,100% { box-shadow: 0 0 8px rgba(255,120,80,.3); }
+  50% { box-shadow: 0 0 16px rgba(255,120,80,.55); }
+}
+
+/* ================= MOBILE LAYOUT ================= */
+@media (max-width: 480px) {
+
+  body {
+    padding: 20px;
+    align-items: flex-start;
+  }
+
+  .container {
+    margin-top: 40px;
+    max-width: 360px;
+    padding: 22px;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(14px);
+  }
+
+  .avatar {
+    width: 82px;
+    height: 82px;
+    margin-top: 36px;
+  }
+
+  h1 {
+    font-size: 20px;
+  }
+
+  .bio {
+    font-size: 13px;
+  }
+
+  /* ✅ 2 link / hàng */
+  .links {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .link {
+    margin-bottom: 0;
+    font-size: 14px;
+    padding: 14px;
+  }
+
+  /* clock nhỏ lại */
+  .clock-time {
+    font-size: 22px;
+  }
+
+  #uptime {
+    font-size: 10px;
+  }
 }
 </style>
 </head>
 
 <body>
 
+<!-- CLOCK -->
+<div class="clock-widget">
+  <div class="clock-time" id="clock">--:--:--</div>
+  <div id="uptime">Uptime: 0s</div>
+</div>
+
 <div class="container">
-
-  <!-- CLOCK -->
-  <div class="clock-widget">
-    <div class="clock-date" id="date">--</div>
-    <div class="clock-time">
-      <span id="h">00</span>:<span id="m">00</span>:<span id="s" class="second">00</span>
-    </div>
-    <div id="uptime">Uptime: 00:00:00</div>
-  </div>
-
-  <img class="avatar" src="https://avatars.githubusercontent.com/u/256741950" />
-
+  <img class="avatar" src="https://avatars.githubusercontent.com/u/256741950">
   <h1>Pham Ngoc Son</h1>
   <div class="bio">Developer | Otaku | Content Creator</div>
   <div class="bio">hi, i'm Kame Ngoc Son.</div>
 
-  <a class="link" href="https://github.com/k4mengxcsxn" target="_blank">🐙 GitHub</a>
-  <a class="link" href="https://www.tiktok.com/@k4mengxcsxn._" target="_blank">🎵 TikTok</a>
-  <a class="link" href="https://www.facebook.com/iamkamengocson" target="_blank">📘 Facebook</a>
-  <a class="link" href="https://www.instagram.com/itzz_.kamengocson_" target="_blank">📸 Instagram</a>
-  <a class="link" href="https://discord.com/users/k4mengxcsxn_" target="_blank">🎮 Discord</a>
-  <a class="link" href="mailto:kame.ngocson2101@gmail.com">📧 Email</a>
+  <div class="links">
+    <a class="link" href="https://github.com/k4mengxcsxn" target="_blank">🐙 GitHub</a>
+    <a class="link" href="https://www.tiktok.com/@k4mengxcsxn._" target="_blank">🎵 TikTok</a>
+    <a class="link" href="https://www.facebook.com/iamkamengocson" target="_blank">📘 Facebook</a>
+    <a class="link" href="https://www.instagram.com/itzz_.kamengocson_" target="_blank">📸 Instagram</a>
+    <a class="link" href="https://discord.com/users/k4mengxcsxn_" target="_blank">🎮 Discord</a>
+    <a class="link" href="mailto:kame.ngocson2101@gmail.com">📧 Email</a>
+  </div>
 
-  <footer>© 2026 • Made by Kame Ngoc Son</footer>
+  <footer style="text-align:center;margin-top:20px;font-size:12px;opacity:.6">
+    © 2026 • Made by Kame Ngoc Son
+  </footer>
 </div>
 
 <script>
-/* ===== RIPPLE ===== */
-document.querySelectorAll(".link").forEach(link => {
-  link.addEventListener("click", e => {
-    const r = document.createElement("span");
-    r.className = "ripple";
-    const rect = link.getBoundingClientRect();
-    r.style.left = e.clientX - rect.left + "px";
-    r.style.top  = e.clientY - rect.top  + "px";
-    link.appendChild(r);
-    setTimeout(() => r.remove(), 600);
-  });
-});
+/* CLOCK + UPTIME */
+const clockEl = document.getElementById('clock');
+const uptimeEl = document.getElementById('uptime');
+const start = Date.now();
 
-/* ===== CLOCK ===== */
-const hEl = document.getElementById("h");
-const mEl = document.getElementById("m");
-const sEl = document.getElementById("s");
-const dateEl = document.getElementById("date");
-const uptimeEl = document.getElementById("uptime");
+setInterval(() => {
+  const d = new Date();
+  clockEl.textContent =
+    d.toLocaleTimeString('vi-VN', { hour12:false });
 
-let lastSecond = null;
-const startTime = Date.now();
-
-const days = ["Chủ nhật","Thứ Hai","Thứ Ba","Thứ Tư","Thứ Năm","Thứ Sáu","Thứ Bảy"];
-
-function updateClock() {
-  const now = new Date();
-
-  hEl.textContent = String(now.getHours()).padStart(2,"0");
-  mEl.textContent = String(now.getMinutes()).padStart(2,"0");
-
-  const s = String(now.getSeconds()).padStart(2,"0");
-  if (s !== lastSecond) {
-    sEl.textContent = s;
-    sEl.classList.remove("tick");
-    void sEl.offsetWidth;
-    sEl.classList.add("tick");
-    lastSecond = s;
-  }
-
-  dateEl.textContent =
-    `${days[now.getDay()]}, ${now.getDate()}/${now.getMonth()+1}/${now.getFullYear()}`;
-
-  const diff = Math.floor((Date.now() - startTime) / 1000);
-  const uh = String(Math.floor(diff/3600)).padStart(2,"0");
-  const um = String(Math.floor(diff%3600/60)).padStart(2,"0");
-  const us = String(diff%60).padStart(2,"0");
-  uptimeEl.textContent = `Uptime: ${uh}:${um}:${us}`;
-}
-
-updateClock();
-setInterval(updateClock, 1000);
+  const diff = Math.floor((Date.now() - start)/1000);
+  uptimeEl.textContent = `Uptime: ${diff}s`;
+}, 1000);
 </script>
 
 </body>
