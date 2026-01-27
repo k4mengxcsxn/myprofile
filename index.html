@@ -1,244 +1,172 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8">
 <title>myprofileishere</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-/* ================= THEME ================= */
-:root {
-  --bg: #0e0e14;
-  --card: #181825;
-  --text: #ffffff;
-  --accent: rgb(255,120,80);
+:root{
+  --bg:#0e0e14;
+  --card:#181825;
+  --text:#fff;
+  --accent:rgb(255,120,80);
 }
 
-/* ================= RESET ================= */
-* { box-sizing: border-box; }
+*{box-sizing:border-box}
 
-body {
-  margin: 0;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: system-ui, sans-serif;
-  background: linear-gradient(135deg, #0f0f13, #1a1a22);
-  color: var(--text);
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:system-ui,sans-serif;
+  background:linear-gradient(135deg,#0f0f13,#1a1a22);
+  color:var(--text);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:18px;
 }
 
-/* ================= CONTAINER ================= */
-.container {
-  background: rgba(255,255,255,0.04);
-  border-radius: 22px;
-  padding: 28px;
-  width: 100%;
-  max-width: 420px;
-  box-shadow: 0 20px 40px rgba(0,0,0,.45);
-  animation: fadeUp .6s ease;
+/* ===== CONTAINER ===== */
+.container{
+  background:rgba(255,255,255,.04);
+  border-radius:20px;
+  padding:26px;
+  width:100%;
+  max-width:420px;
+  box-shadow:0 20px 40px rgba(0,0,0,.4);
+  animation:fadeUp .6s ease;
 }
 
-/* ================= AVATAR ================= */
-.avatar {
-  width: 96px;
-  height: 96px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid white;
-  margin: 14px auto;
-  display: block;
-  animation: pulse 3s infinite;
+/* ===== AVATAR ===== */
+.avatar{
+  width:96px;
+  height:96px;
+  border-radius:50%;
+  border:3px solid white;
+  object-fit:cover;
+  display:block;
+  margin:auto;
 }
 
-/* ================= TEXT ================= */
-h1 {
-  text-align: center;
-  margin: 8px 0 4px;
+/* ===== TEXT ===== */
+h1{
+  text-align:center;
+  margin:12px 0 4px;
+}
+.bio{
+  text-align:center;
+  font-size:14px;
+  opacity:.85;
 }
 
-.bio {
-  text-align: center;
-  font-size: 14px;
-  opacity: .85;
+/* ===== LINKS ===== */
+.link{
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin-top:14px;
+  padding:15px;
+  border-radius:14px;
+  text-decoration:none;
+  font-weight:600;
+  color:white;
+  background:#1f1f2d;
+  transition:transform .15s,box-shadow .15s;
 }
 
-/* ================= LINKS ================= */
-.links {
-  margin-top: 22px;
+.link:hover{
+  transform:scale(1.04);
+  box-shadow:0 0 18px rgba(255,120,80,.4);
 }
 
-.link {
-  position: relative;
-  overflow: hidden;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-
-  background: var(--card);
-  color: var(--text);
-  text-decoration: none;
-  font-weight: 600;
-
-  padding: 15px;
-  border-radius: 16px;
-  margin-bottom: 14px;
-
-  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
-  transition: transform .18s ease, box-shadow .18s ease;
+.link:active{
+  transform:scale(.96);
 }
 
-.link:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 12px rgba(255,120,80,.55);
-}
-
-.link:active {
-  transform: scale(.94);
-}
-
-/* ================= RIPPLE ================= */
-.link .ripple {
-  position: absolute;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  pointer-events: none;
-  background: radial-gradient(
-    circle,
-    rgba(255,120,80,.6) 0%,
-    rgba(255,120,80,.3) 40%,
-    transparent 70%
+/* ===== RIPPLE (FIX MOBILE) ===== */
+.link::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  background:radial-gradient(
+    circle at var(--x,50%) var(--y,50%),
+    rgba(255,120,80,.45) 0%,
+    rgba(255,120,80,.25) 20%,
+    transparent 55%
   );
-  transform: translate(-50%, -50%) scale(0);
-  animation: ripple .6s ease-out;
-  z-index: 5;
+  opacity:0;
+  transform:scale(.3);
+  transition:.35s;
 }
 
-/* ================= REVEAL ================= */
-.container .link {
-  opacity: 0;
-  animation: revealGlow .6s cubic-bezier(.2,.8,.2,1) forwards;
+.link.is-rippling::after{
+  opacity:1;
+  transform:scale(1.6);
 }
 
-.container .link:nth-child(1){animation-delay:.15s}
-.container .link:nth-child(2){animation-delay:.25s}
-.container .link:nth-child(3){animation-delay:.35s}
-.container .link:nth-child(4){animation-delay:.45s}
-.container .link:nth-child(5){animation-delay:.55s}
-.container .link:nth-child(6){animation-delay:.65s}
-
-/* ================= CLOCK ================= */
-.clock-widget {
-  position: fixed;
-  top: 18px;
-  right: 20px;
-  text-align: right;
-  font-variant-numeric: tabular-nums;
+/* ===== CLOCK WIDGET ===== */
+.clock-box{
+  position:fixed;
+  top:18px;
+  right:18px;
+  background:rgba(20,20,30,.85);
+  border-radius:16px;
+  padding:14px 18px;
+  text-align:center;
+  box-shadow:0 0 25px rgba(255,120,80,.35);
 }
 
-.clock-time {
-  font-size: 32px;
-  font-weight: 700;
+#clock{
+  font-size:26px;
+  font-weight:700;
+  letter-spacing:1px;
 }
 
-.clock-time span {
-  display: inline-block;
-  min-width: 20px;
+#sec{
+  display:inline-block;
+  animation:tick 1s steps(1,end) infinite;
 }
 
-.second.tick {
-  animation: secondTick .18s steps(1,end);
+#uptime{
+  font-size:12px;
+  opacity:.7;
+  margin-top:4px;
 }
 
-#uptime {
-  font-size: 12px;
-  opacity: .7;
-}
-
-/* ================= ANIMATIONS ================= */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes revealGlow {
-  from { opacity: 0; transform: translateY(12px) scale(.96); }
-  to { opacity: 1; transform: none; }
-}
-
-@keyframes pulse {
-  0%,100% { box-shadow: 0 0 8px rgba(255,120,80,.3); }
-  50% { box-shadow: 0 0 16px rgba(255,120,80,.55); }
-}
-
-@keyframes ripple {
-  to {
-    transform: translate(-50%, -50%) scale(14);
-    opacity: 0;
+/* ===== MOBILE ===== */
+@media(max-width:480px){
+  .clock-box{
+    top:auto;
+    bottom:18px;
+    right:50%;
+    transform:translateX(50%);
+    padding:10px 14px;
   }
+  #clock{font-size:20px}
 }
 
-@keyframes secondTick {
-  from { transform: translateY(-2px); opacity: .6; }
-  to { transform: translateY(0); opacity: 1; }
+/* ===== ANIM ===== */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:none}
 }
 
-/* ================= MOBILE ================= */
-@media (max-width: 480px) {
-
-  body {
-    padding: 20px;
-    align-items: flex-start;
-  }
-
-  .container {
-    margin-top: 40px;
-    max-width: 360px;
-    padding: 22px;
-    background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(14px);
-  }
-
-  .avatar {
-    width: 82px;
-    height: 82px;
-    margin-top: 36px;
-  }
-
-  h1 { font-size: 20px; }
-
-  .bio { font-size: 13px; }
-
-  /* 2 link / hàng */
-  .links {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-
-  .link {
-    margin-bottom: 0;
-    font-size: 14px;
-    padding: 14px;
-  }
-
-  .clock-time { font-size: 22px; }
-  #uptime { font-size: 10px; }
+@keyframes tick{
+  from{opacity:.4}
+  to{opacity:1}
 }
 </style>
 </head>
 
 <body>
 
-<!-- CLOCK -->
-<div class="clock-widget">
-  <div class="clock-time">
-    <span id="h">00</span>:
-    <span id="m">00</span>:
-    <span id="s" class="second">00</span>
+<div class="clock-box">
+  <div id="clock">
+    <span id="hh">00</span>:<span id="mm">00</span>:<span id="sec">00</span>
   </div>
   <div id="uptime">Uptime: 0s</div>
 </div>
@@ -247,69 +175,45 @@ h1 {
   <img class="avatar" src="https://avatars.githubusercontent.com/u/256741950">
   <h1>Pham Ngoc Son</h1>
   <div class="bio">Developer | Otaku | Content Creator</div>
-  <div class="bio">hi, i'm Kame Ngoc Son.</div>
 
-  <div class="links">
-    <a class="link" href="https://github.com/k4mengxcsxn" target="_blank">🐙 GitHub</a>
+  <a class="link" href="https://github.com/k4mengxcsxn" target="_blank">🐙 GitHub</a>
     <a class="link" href="https://www.tiktok.com/@k4mengxcsxn._" target="_blank">🎵 TikTok</a>
     <a class="link" href="https://www.facebook.com/iamkamengocson" target="_blank">📘 Facebook</a>
     <a class="link" href="https://www.instagram.com/itzz_.kamengocson_" target="_blank">📸 Instagram</a>
     <a class="link" href="https://discord.com/users/k4mengxcsxn_" target="_blank">🎮 Discord</a>
     <a class="link" href="mailto:kame.ngocson2101@gmail.com">📧 Email</a>
-  </div>
-
-  <footer style="text-align:center;margin-top:20px;font-size:12px;opacity:.6">
-    © 2026 • Made by Kame Ngoc Son
-  </footer>
 </div>
 
 <script>
-/* ===== RIPPLE CLICK ===== */
-document.querySelectorAll('.link').forEach(link => {
-  link.addEventListener('click', e => {
-    const ripple = document.createElement('span');
-    ripple.className = 'ripple';
+/* ===== RIPPLE ===== */
+document.querySelectorAll('.link').forEach(link=>{
+  link.addEventListener('pointerdown',e=>{
+    const r=link.getBoundingClientRect()
+    link.style.setProperty('--x',((e.clientX-r.left)/r.width)*100+'%')
+    link.style.setProperty('--y',((e.clientY-r.top)/r.height)*100+'%')
+    link.classList.add('is-rippling')
+  })
+  link.addEventListener('pointerup',()=>setTimeout(()=>link.classList.remove('is-rippling'),250))
+})
 
-    const rect = link.getBoundingClientRect();
-    ripple.style.left = (e.clientX - rect.left) + 'px';
-    ripple.style.top  = (e.clientY - rect.top) + 'px';
+/* ===== CLOCK ===== */
+const hEl=document.getElementById('hh')
+const mEl=document.getElementById('mm')
+const sEl=document.getElementById('sec')
 
-    link.appendChild(ripple);
-    setTimeout(() => ripple.remove(), 600);
-  });
-});
+setInterval(()=>{
+  const n=new Date()
+  hEl.textContent=String(n.getHours()).padStart(2,'0')
+  mEl.textContent=String(n.getMinutes()).padStart(2,'0')
+  sEl.textContent=String(n.getSeconds()).padStart(2,'0')
+},1000)
 
-/* ===== CLOCK + SECOND TICK ===== */
-const hEl = document.getElementById('h');
-const mEl = document.getElementById('m');
-const sEl = document.getElementById('s');
-const uptimeEl = document.getElementById('uptime');
-const start = Date.now();
-let lastSecond = null;
-
-function updateClock() {
-  const d = new Date();
-  const h = String(d.getHours()).padStart(2,'0');
-  const m = String(d.getMinutes()).padStart(2,'0');
-  const s = String(d.getSeconds()).padStart(2,'0');
-
-  hEl.textContent = h;
-  mEl.textContent = m;
-
-  if (s !== lastSecond) {
-    sEl.textContent = s;
-    sEl.classList.remove('tick');
-    void sEl.offsetWidth;
-    sEl.classList.add('tick');
-    lastSecond = s;
-  }
-
-  const diff = Math.floor((Date.now() - start) / 1000);
-  uptimeEl.textContent = `Uptime: ${diff}s`;
-}
-
-updateClock();
-setInterval(updateClock, 1000);
+/* ===== UPTIME ===== */
+const start=Date.now()
+setInterval(()=>{
+  const t=Math.floor((Date.now()-start)/1000)
+  document.getElementById('uptime').textContent=`Uptime: ${t}s`
+},1000)
 </script>
 
 </body>
