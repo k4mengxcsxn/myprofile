@@ -6,113 +6,70 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-/* ================= THEME ================= */
 :root{
-  --bg:#0b0b10;
+  --bg:#0e0e14;
   --card:#181825;
   --text:#fff;
-  --accent:#ff7a4d;
-  --glow:0 0 25px rgba(255,122,77,.55);
+  --accent:rgb(255,120,80);
 }
 
 body[data-theme="purple"]{
   --bg:#120c24;
   --card:#1d1438;
-  --accent:#b478ff;
-  --glow:0 0 28px rgba(180,120,255,.6);
+  --accent:rgb(180,120,255);
 }
 body[data-theme="neon"]{
   --bg:#050505;
   --card:#0c0c0c;
-  --accent:#00ffd0;
-  --glow:0 0 32px rgba(0,255,200,.7);
+  --accent:rgb(0,255,200);
 }
 
 *{box-sizing:border-box}
 
-/* ================= NITRO BACKGROUND ================= */
 body{
   margin:0;
   min-height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
+  background:
+    radial-gradient(circle at top,
+      color-mix(in srgb,var(--accent) 12%,transparent),
+      transparent 40%),
+    linear-gradient(135deg,#0f0f13,#1a1a22);
   color:var(--text);
   font-family:system-ui,sans-serif;
   padding:24px;
-  background:
-    radial-gradient(800px at 20% 10%,color-mix(in srgb,var(--accent) 25%,transparent),transparent 60%),
-    radial-gradient(700px at 80% 90%,color-mix(in srgb,var(--accent) 20%,transparent),transparent 65%),
-    linear-gradient(135deg,#0e0e14,#09090f);
-  overflow:hidden;
 }
 
-/* floating glow */
-body::before{
-  content:"";
-  position:fixed;
-  inset:-40%;
-  background:
-    conic-gradient(from 0deg,
-      transparent,
-      color-mix(in srgb,var(--accent) 35%,transparent),
-      transparent);
-  animation:spin 18s linear infinite;
-  opacity:.45;
-}
-@keyframes spin{
-  to{transform:rotate(360deg)}
-}
-
-/* ================= CLOCK ================= */
+/* ===== CLOCK ===== */
 .clock-box{
   position:fixed;
   top:24px;
   right:24px;
-  background:rgba(0,0,0,.35);
+  background:rgba(0,0,0,.4);
   backdrop-filter:blur(12px);
   padding:14px 18px;
   border-radius:14px;
   text-align:center;
-  box-shadow:0 10px 30px rgba(0,0,0,.4);
-  z-index:10;
+  box-shadow:0 10px 30px rgba(0,0,0,.45);
 }
+#clock{font-size:26px;font-weight:700}
+#timezone{font-size:12px;opacity:.8;margin-top:4px}
+#uptime{font-size:12px;opacity:.6;margin-top:2px}
 
-/* ================= THEME BUTTON ================= */
-.theme-btn{
-  position:fixed;
-  top:24px;
-  left:24px;
-  padding:10px 14px;
-  border-radius:12px;
-  background:rgba(0,0,0,.35);
-  backdrop-filter:blur(10px);
-  cursor:pointer;
-  font-size:14px;
-  z-index:10;
-  transition:.2s;
-}
-.theme-btn:hover{
-  box-shadow:var(--glow);
-}
-
-/* ================= CONTAINER ================= */
+/* ===== CONTAINER ===== */
 .container{
   width:100%;
   max-width:420px;
   background:rgba(255,255,255,.04);
-  border-radius:22px;
+  border-radius:20px;
   padding:28px;
-  box-shadow:
-    0 25px 60px rgba(0,0,0,.6),
-    inset 0 0 0 1px rgba(255,255,255,.05);
-  backdrop-filter:blur(14px);
+  box-shadow:0 20px 40px rgba(0,0,0,.45);
   animation:fadeUp .6s ease;
-  position:relative;
-  z-index:2;
 }
 
-/* ================= AVATAR ================= */
+/* ===== AVATAR ===== */
 .avatar{
   width:100px;
   height:100px;
@@ -124,49 +81,82 @@ body::before{
   animation:pulse 3s infinite;
 }
 
-/* ================= LINKS ================= */
+/* ===== TEXT ===== */
+h1{text-align:center;margin:8px 0 4px}
+.bio{text-align:center;font-size:14px;opacity:.85}
+
+/* ===== DISCORD ===== */
+.status{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  margin:12px 0 18px;
+  font-size:13px;
+}
+.dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  box-shadow:0 0 6px currentColor;
+}
+
+/* ===== LINKS ===== */
 .link{
+  position:relative;
   display:block;
   margin-top:14px;
-  border-radius:16px;
+  border-radius:14px;
   text-decoration:none;
   color:var(--text);
-  overflow:hidden;
+
   opacity:0;
-  transform:translateY(18px) scale(.95);
-  animation:reveal .7s cubic-bezier(.2,.8,.2,1) forwards;
+  transform:translateY(22px) scale(.94);
+  animation:linkReveal .75s cubic-bezier(.2,.8,.2,1) forwards;
   animation-delay:calc(var(--i) * .12s);
 }
 
 .link-inner{
+  position:relative;
+  overflow:hidden;
   padding:16px;
   display:flex;
   justify-content:center;
   align-items:center;
+  gap:10px;
   font-weight:600;
-  background:color-mix(in srgb,var(--card) 88%,black);
-  border:1px solid color-mix(in srgb,var(--accent) 45%,transparent);
-  transition:.2s;
-  will-change:transform;
+
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb,var(--card) 92%,white 2%),
+      color-mix(in srgb,var(--card) 96%,black));
+
+  border-radius:14px;
+  border:1px solid color-mix(in srgb,var(--accent) 40%,transparent);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.08),
+    0 10px 26px rgba(0,0,0,.45);
+
+  transition:.22s cubic-bezier(.2,.8,.2,1);
 }
 
 .link:hover .link-inner{
-  transform:scale(1.07);
+  transform:scale(1.06);
   box-shadow:
-    var(--glow),
-    0 0 50px color-mix(in srgb,var(--accent) 40%,transparent);
+    0 0 18px color-mix(in srgb,var(--accent) 55%,transparent),
+    0 0 36px color-mix(in srgb,var(--accent) 35%,transparent);
 }
 
-/* fix phần thừa khi click */
 .link:active .link-inner{
-  transform:scale(.96);
+  transform:scale(.95);
 }
 
-/* ================= RIPPLE ================= */
+/* ===== RIPPLE ===== */
 .ripple{
   position:absolute;
-  width:14px;
-  height:14px;
+  width:16px;
+  height:16px;
   border-radius:50%;
   pointer-events:none;
   background:radial-gradient(circle,
@@ -176,76 +166,140 @@ body::before{
   animation:ripple .55s ease-out;
 }
 
-/* ================= ANIM ================= */
-@keyframes ripple{
-  to{transform:translate(-50%,-50%) scale(16);opacity:0}
+/* ===== FOOTER ===== */
+.footer{
+  margin:24px 0 8px;
+  text-align:center;
+  font-size:12px;
+  opacity:.6;
 }
-@keyframes reveal{
-  0%{opacity:0;transform:translateY(20px) scale(.94)}
-  70%{opacity:1;transform:translateY(0) scale(1.04)}
-  100%{opacity:1;transform:none}
+
+/* ===== ANIMATIONS ===== */
+@keyframes ripple{
+  to{
+    transform:translate(-50%,-50%) scale(14);
+    opacity:0;
+  }
+}
+@keyframes linkReveal{
+  0%{
+    opacity:0;
+    transform:translateY(22px) scale(.92);
+    filter:blur(6px);
+  }
+  65%{
+    opacity:1;
+    transform:translateY(0) scale(1.05);
+    filter:blur(0);
+  }
+  100%{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
 }
 @keyframes fadeUp{
   from{opacity:0;transform:translateY(20px)}
+  to{opacity:1}
 }
 @keyframes pulse{
-  0%,100%{box-shadow:0 0 12px color-mix(in srgb,var(--accent) 35%,transparent)}
-  50%{box-shadow:0 0 26px color-mix(in srgb,var(--accent) 65%,transparent)}
+  0%,100%{box-shadow:0 0 10px rgba(255,120,80,.3)}
+  50%{box-shadow:0 0 20px rgba(255,120,80,.6)}
+}
+
+/* ===== MOBILE ===== */
+@media(max-width:480px){
+  body{padding:16px;align-items:flex-start}
+  .clock-box{top:16px;right:16px;padding:10px 14px}
+  #clock{font-size:18px}
+  .container{margin-top:90px;padding:22px}
 }
 </style>
 </head>
 
-<body data-theme="dark">
+<body>
 
-<div class="theme-btn" id="themeBtn">🎨 Theme</div>
+<div class="clock-box">
+  <div id="clock">00:00:00</div>
+  <div id="timezone">GMT+7 • Asia/Vietnam/Ho Chi Minh 🇻🇳</div>
+  <div id="uptime">Uptime: 0s</div>
+</div>
 
 <div class="container">
   <img class="avatar" src="https://avatars.githubusercontent.com/u/256741950">
-  <h1 style="text-align:center">Pham Ngoc Son</h1>
-  <div style="text-align:center;opacity:.85">Developer | Otaku | Content Creator</div>
+  <h1>Pham Ngoc Son</h1>
+  <div class="bio">Developer | Otaku | Content Creator</div>
 
-  <a class="link" style="--i:1" href="https://github.com/k4mengxcsxn" target="_blank">
-    <div class="link-inner">🐙 GitHub</div>
-  </a>
-  <a class="link" style="--i:2" href="https://www.tiktok.com/@k4mengxcsxn._" target="_blank">
-    <div class="link-inner">🎵 TikTok</div>
-  </a>
-  <a class="link" style="--i:3" href="https://www.facebook.com/iamkamengocson" target="_blank">
-    <div class="link-inner">📘 Facebook</div>
-  </a>
-  <a class="link" style="--i:4" href="https://www.instagram.com/itzz_.kamengocson_" target="_blank">
-    <div class="link-inner">📸 Instagram</div>
-  </a>
+  <div class="status">
+    <span class="dot" id="dot"></span>
+    <span id="discord-text">Loading Discord…</span>
+  </div>
+
+  <a class="link" style="--i:1" href="https://github.com/k4mengxcsxn" target="_blank"><div class="link-inner">🐙 GitHub</div></a>
+  <a class="link" style="--i:2" href="https://www.tiktok.com/@k4mengxcsxn._" target="_blank"><div class="link-inner">🎵 TikTok</div></a>
+  <a class="link" style="--i:3" href="https://www.facebook.com/iamkamengocson" target="_blank"><div class="link-inner">📘 Facebook</div></a>
+  <a class="link" style="--i:4" href="https://www.instagram.com/itzz_.kamengocson_" target="_blank"><div class="link-inner">📸 Instagram</div></a>
+  <a class="link" style="--i:5" href="https://discord.com/users/k4mengxcsxn_" target="_blank"><div class="link-inner">🎮 Discord</div></a>
+  <a class="link" style="--i:6" href="mailto:kame.ngocson2101@gmail.com"><div class="link-inner">📧 Email</div></a>
+
+  <div class="footer">© 2026 • Made by Kame Ngoc Son</div>
 </div>
 
 <script>
-/* RIPPLE */
+/* ===== RIPPLE CLICK ===== */
 document.querySelectorAll(".link").forEach(link=>{
-  const inner=link.querySelector(".link-inner");
+  const inner = link.querySelector(".link-inner");
+
   link.addEventListener("click",e=>{
     e.preventDefault();
-    const r=inner.getBoundingClientRect();
-    const s=document.createElement("span");
-    s.className="ripple";
-    s.style.left=e.clientX-r.left+"px";
-    s.style.top=e.clientY-r.top+"px";
-    inner.appendChild(s);
+
+    const rect = inner.getBoundingClientRect();
+    const ripple = document.createElement("span");
+    ripple.className = "ripple";
+    ripple.style.left = e.clientX - rect.left + "px";
+    ripple.style.top  = e.clientY - rect.top  + "px";
+    inner.appendChild(ripple);
+
+    const href = link.href;
+    const target = link.target;
+
     setTimeout(()=>{
-      s.remove();
-      link.target==="_blank"
-        ? window.open(link.href,"_blank")
-        : location.href=link.href;
+      ripple.remove();
+      target==="_blank" ? window.open(href,"_blank") : location.href=href;
     },160);
   });
 });
 
-/* THEME SWITCH */
-const themes=["dark","purple","neon"];
-let t=0;
-document.getElementById("themeBtn").onclick=()=>{
-  t=(t+1)%themes.length;
-  document.body.dataset.theme=themes[t];
-};
+/* ===== CLOCK ===== */
+const clock=document.getElementById("clock");
+const uptime=document.getElementById("uptime");
+const start=Date.now();
+setInterval(()=>{
+  const n=new Date();
+  clock.textContent=
+    String(n.getHours()).padStart(2,"0")+":"+
+    String(n.getMinutes()).padStart(2,"0")+":"+
+    String(n.getSeconds()).padStart(2,"0");
+  uptime.textContent=`Uptime: ${Math.floor((Date.now()-start)/1000)}s`;
+},1000);
+
+/* ===== DISCORD ===== */
+async function loadDiscord(){
+  const res=await fetch("https://api.lanyard.rest/v1/users/1216226389582282842");
+  const d=(await res.json()).data;
+
+  const dot=document.getElementById("dot");
+  const text=document.getElementById("discord-text");
+
+  const colors={online:"#3ba55d",idle:"#faa61a",dnd:"#ed4245",offline:"#747f8d"};
+  dot.style.background=colors[d.discord_status];
+  dot.style.color=colors[d.discord_status];
+
+  text.textContent=
+    d.listening_to_spotify ? "Listening to Spotify 🎧"
+    : d.activities[0]?.name || d.discord_status;
+}
+loadDiscord();
+setInterval(loadDiscord,15000);
 </script>
 
 </body>
