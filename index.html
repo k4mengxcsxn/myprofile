@@ -101,7 +101,7 @@ h1{text-align:center;margin:8px 0 4px}
   animation-delay:calc(var(--i) * .12s);
 }
 
-/* === CARD LOOK (BOTTOM ĐẸP) === */
+/* ===== CARD ===== */
 .link-inner{
   position:relative;
   z-index:1;
@@ -114,39 +114,43 @@ h1{text-align:center;margin:8px 0 4px}
 
   background:linear-gradient(
     180deg,
-    color-mix(in srgb,var(--card) 92%,white),
-    color-mix(in srgb,var(--card) 85%,black)
+    color-mix(in srgb,var(--card) 94%,white),
+    color-mix(in srgb,var(--card) 82%,black)
   );
 
   border-radius:14px;
-  border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);
+  border:1px solid color-mix(in srgb,var(--accent) 35%,transparent);
 
+  /* ĐẾ */
   box-shadow:
-    0 6px 0 color-mix(in srgb,var(--card) 65%,black),
+    0 5px 0 color-mix(in srgb,var(--card) 60%,black),
     0 14px 28px rgba(0,0,0,.45);
 
   transition:
-    transform .18s ease,
-    box-shadow .18s ease,
-    filter .18s ease;
+    transform .16s ease,
+    box-shadow .16s ease,
+    filter .16s ease;
 }
 
+/* ===== HOVER: GLOW MẠNH ===== */
 .link:hover .link-inner{
-  transform:translateY(-3px) scale(1.05);
+  transform:translateY(-3px) scale(1.06);
   box-shadow:
-    0 6px 0 color-mix(in srgb,var(--accent) 60%,black),
-    0 0 16px color-mix(in srgb,var(--accent) 45%,transparent),
-    0 20px 36px rgba(0,0,0,.55);
+    0 5px 0 color-mix(in srgb,var(--accent) 70%,black),
+    0 0 22px color-mix(in srgb,var(--accent) 70%,transparent),
+    0 0 42px color-mix(in srgb,var(--accent) 40%,transparent),
+    0 22px 42px rgba(0,0,0,.6);
 }
 
+/* ===== ACTIVE: KHÔNG CÒN PHẦN THỪA ===== */
 .link:active .link-inner{
-  transform:translateY(2px) scale(.96);
+  transform:scale(.97);
   box-shadow:
-    0 2px 0 color-mix(in srgb,var(--card) 70%,black),
-    0 8px 16px rgba(0,0,0,.35);
+    0 0 0 transparent,
+    0 6px 14px rgba(0,0,0,.4);
 }
 
-/* ripple */
+/* ===== RIPPLE ===== */
 .ripple{
   position:absolute;
   width:16px;
@@ -154,7 +158,7 @@ h1{text-align:center;margin:8px 0 4px}
   border-radius:50%;
   pointer-events:none;
   background:radial-gradient(circle,
-    color-mix(in srgb,var(--accent) 80%,transparent),
+    color-mix(in srgb,var(--accent) 85%,transparent),
     transparent 70%);
   transform:translate(-50%,-50%) scale(0);
   animation:ripple .55s ease-out;
@@ -168,9 +172,9 @@ h1{text-align:center;margin:8px 0 4px}
   opacity:.6;
 }
 
-/* ================= ANIMATIONS ================= */
+/* ================= ANIM ================= */
 @keyframes ripple{
-  to{transform:translate(-50%,-50%) scale(14);opacity:0}
+  to{transform:translate(-50%,-50%) scale(15);opacity:0}
 }
 @keyframes revealGlow{
   0%{opacity:0;transform:translateY(18px) scale(.96)}
