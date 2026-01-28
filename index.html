@@ -6,11 +6,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+/* ================= THEME ================= */
 :root{
   --bg:#0e0e14;
   --card:#181825;
   --text:#fff;
   --accent:rgb(255,120,80);
+}
+
+body[data-theme="purple"]{
+  --bg:#120c24;
+  --card:#1d1438;
+  --accent:rgb(180,120,255);
+}
+body[data-theme="neon"]{
+  --bg:#050505;
+  --card:#0c0c0c;
+  --accent:rgb(0,255,200);
 }
 
 *{box-sizing:border-box}
@@ -27,7 +39,7 @@ body{
   padding:24px;
 }
 
-/* ===== CLOCK ===== */
+/* ================= CLOCK ================= */
 .clock-box{
   position:fixed;
   top:24px;
@@ -37,56 +49,87 @@ body{
   padding:14px 18px;
   border-radius:14px;
   text-align:center;
+  box-shadow:0 10px 30px rgba(0,0,0,.4);
 }
-#clock{font-size:24px;font-weight:700}
-#tz{font-size:12px;opacity:.75}
+#clock{font-size:26px;font-weight:700}
+#gmt{font-size:12px;opacity:.8}
+#uptime{font-size:11px;opacity:.6}
 
-/* ===== CARD ===== */
+/* ================= CONTAINER ================= */
 .container{
   width:100%;
   max-width:420px;
   background:rgba(255,255,255,.03);
   border-radius:20px;
   padding:28px;
+  box-shadow:0 20px 40px rgba(0,0,0,.45);
+  animation:fadeUp .6s ease;
 }
 
-/* ===== LINK WRAPPER ===== */
-.link{
-  text-decoration:none;
+/* ================= AVATAR ================= */
+.avatar{
+  width:100px;
+  height:100px;
+  border-radius:50%;
+  object-fit:cover;
+  border:3px solid white;
   display:block;
-  margin-top:14px;
+  margin:0 auto 12px;
+  animation:pulse 3s infinite;
 }
 
-/* ===== LINK INNER (RIPPLE Ở ĐÂY) ===== */
-.link-inner{
+/* ================= TEXT ================= */
+h1{text-align:center;margin:8px 0 4px}
+.bio{text-align:center;font-size:14px;opacity:.85}
+
+/* ================= DISCORD ================= */
+.status{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  margin:12px 0 18px;
+  font-size:13px;
+}
+.dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:#777;
+  box-shadow:0 0 6px currentColor;
+}
+
+/* ================= LINK ================= */
+.link{
   position:relative;
   overflow:hidden;
-  padding:15px;
-  border-radius:14px;
-
   display:flex;
   justify-content:center;
   align-items:center;
-  gap:8px;
-
-  background:color-mix(in srgb,var(--card) 85%,black);
-  border:1px solid color-mix(in srgb,var(--accent) 35%,transparent);
+  gap:10px;
+  margin-top:14px;
+  padding:15px;
+  border-radius:14px;
+  text-decoration:none;
   font-weight:600;
   color:var(--text);
-
+  background:color-mix(in srgb,var(--card) 85%,black);
+  border:1px solid color-mix(in srgb,var(--accent) 35%,transparent);
+  opacity:0;
+  transform:translateY(18px) scale(.96);
+  animation:revealGlow .7s cubic-bezier(.2,.8,.2,1) forwards;
+  animation-delay:calc(var(--i) * .12s);
   transition:.18s ease;
 }
 
-.link-inner:hover{
-  transform:scale(1.05);
+.link:hover{
+  transform:scale(1.06);
   box-shadow:
-    0 0 16px color-mix(in srgb,var(--accent) 55%,transparent),
-    0 0 32px color-mix(in srgb,var(--accent) 35%,transparent);
+    0 0 14px color-mix(in srgb,var(--accent) 55%,transparent),
+    0 0 28px color-mix(in srgb,var(--accent) 35%,transparent);
 }
 
-.link-inner:active{
-  transform:scale(.96);
-}
+.link:active{transform:scale(.95)}
 
 /* ===== RIPPLE ===== */
 .ripple{
@@ -96,23 +139,57 @@ body{
   border-radius:50%;
   pointer-events:none;
   background:radial-gradient(circle,
-    color-mix(in srgb,var(--accent) 80%,transparent),
-    transparent 70%);
+    rgba(255,255,255,.95) 0%,
+    color-mix(in srgb,var(--accent) 80%,transparent) 40%,
+    transparent 70%
+  );
   transform:translate(-50%,-50%) scale(0);
-  animation:ripple .55s ease-out;
+  animation:ripple .7s ease-out;
+  z-index:2;
 }
 
+/* ================= CONTROLS ================= */
+.controls{
+  display:flex;
+  justify-content:center;
+  margin-top:20px;
+}
+.control-btn{
+  background:var(--card);
+  color:white;
+  border:none;
+  border-radius:10px;
+  padding:10px 14px;
+  cursor:pointer;
+}
+
+/* ================= ANIMATIONS ================= */
 @keyframes ripple{
   to{
-    transform:translate(-50%,-50%) scale(14);
+    transform:translate(-50%,-50%) scale(18);
     opacity:0;
   }
 }
+@keyframes revealGlow{
+  0%{opacity:0;transform:translateY(18px) scale(.96)}
+  70%{opacity:1;transform:translateY(0) scale(1.03)}
+  100%{opacity:1;transform:translateY(0) scale(1)}
+}
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1}
+}
+@keyframes pulse{
+  0%,100%{box-shadow:0 0 10px rgba(255,120,80,.3)}
+  50%{box-shadow:0 0 20px rgba(255,120,80,.6)}
+}
 
-/* ===== MOBILE ===== */
+/* ================= MOBILE ================= */
 @media(max-width:480px){
-  body{padding:16px}
-  .clock-box{top:14px;right:14px}
+  body{padding:16px;align-items:flex-start}
+  .clock-box{top:16px;right:16px;padding:10px 14px}
+  #clock{font-size:18px}
+  .container{margin-top:90px;padding:22px}
 }
 </style>
 </head>
@@ -122,46 +199,84 @@ body{
 <!-- CLOCK -->
 <div class="clock-box">
   <div id="clock">00:00:00</div>
-  <div id="tz">GMT+7 · Ho Chi Minh 🇻🇳</div>
+  <div id="gmt">GMT+7 · Asia/Ho Chi Minh 🇻🇳</div>
+  <div id="uptime">Uptime: 0s</div>
 </div>
 
 <!-- PROFILE -->
 <div class="container">
-  <a class="link" href="https://github.com" target="_blank">
-    <div class="link-inner">🐙 GitHub</div>
-  </a>
+  <img class="avatar" src="https://avatars.githubusercontent.com/u/256741950">
+  <h1>Pham Ngoc Son</h1>
+  <div class="bio">Developer | Otaku | Content Creator</div>
 
-  <a class="link" href="https://facebook.com" target="_blank">
-    <div class="link-inner">📘 Facebook</div>
-  </a>
+  <div class="status">
+    <span class="dot" id="dot"></span>
+    <span id="discord-text">Loading Discord…</span>
+  </div>
 
-  <a class="link" href="https://instagram.com" target="_blank">
-    <div class="link-inner">📸 Instagram</div>
-  </a>
+  <a class="link" style="--i:1" href="https://github.com/k4mengxcsxn" target="_blank">🐙 GitHub</a>
+  <a class="link" style="--i:2" href="https://www.facebook.com/iamkamengocson" target="_blank">📘 Facebook</a>
+  <a class="link" style="--i:3" href="https://www.instagram.com/itzz_.kamengocson_" target="_blank">📸 Instagram</a>
+
+  <div class="controls">
+    <button class="control-btn" onclick="switchTheme()">🎨 Theme</button>
+  </div>
 </div>
 
 <script>
-/* ===== CLOCK ===== */
-setInterval(()=>{
-  const d=new Date();
-  clock.textContent=
-    d.getHours().toString().padStart(2,"0")+":"+
-    d.getMinutes().toString().padStart(2,"0")+":"+
-    d.getSeconds().toString().padStart(2,"0");
-},1000);
-
-/* ===== RIPPLE CLICK (CHẮC CHẮN HIỆN) ===== */
-document.querySelectorAll(".link-inner").forEach(el=>{
-  el.addEventListener("click",e=>{
-    const rect = el.getBoundingClientRect();
-    const r = document.createElement("span");
+/* ===== RIPPLE ===== */
+document.querySelectorAll(".link").forEach(link=>{
+  link.addEventListener("click",e=>{
+    e.preventDefault();
+    const rect=link.getBoundingClientRect();
+    const r=document.createElement("span");
     r.className="ripple";
-    r.style.left = e.clientX - rect.left + "px";
-    r.style.top  = e.clientY - rect.top  + "px";
-    el.appendChild(r);
-    setTimeout(()=>r.remove(),550);
+    r.style.left=e.clientX-rect.left+"px";
+    r.style.top=e.clientY-rect.top+"px";
+    link.appendChild(r);
+    const href=link.href;
+    const target=link.target;
+    setTimeout(()=>{
+      r.remove();
+      target==="_blank"?window.open(href,"_blank"):location.href=href;
+    },220);
   });
 });
+
+/* ===== CLOCK ===== */
+const clock=document.getElementById("clock");
+const uptime=document.getElementById("uptime");
+const start=Date.now();
+setInterval(()=>{
+  const n=new Date();
+  clock.textContent=
+    String(n.getHours()).padStart(2,"0")+":"+
+    String(n.getMinutes()).padStart(2,"0")+":"+
+    String(n.getSeconds()).padStart(2,"0");
+  uptime.textContent=`Uptime: ${Math.floor((Date.now()-start)/1000)}s`;
+},1000);
+
+/* ===== THEME ===== */
+const themes=["default","purple","neon"];
+let idx=0;
+function switchTheme(){
+  idx=(idx+1)%themes.length;
+  document.body.dataset.theme=themes[idx]==="default"?"":themes[idx];
+}
+
+/* ===== DISCORD ===== */
+async function loadDiscord(){
+  const res=await fetch("https://api.lanyard.rest/v1/users/1216226389582282842");
+  const d=(await res.json()).data;
+  const dot=document.getElementById("dot");
+  const text=document.getElementById("discord-text");
+  const colors={online:"#3ba55d",idle:"#faa61a",dnd:"#ed4245",offline:"#747f8d"};
+  dot.style.background=colors[d.discord_status];
+  dot.style.color=colors[d.discord_status];
+  text.textContent=d.activities[0]?.name||d.discord_status;
+}
+loadDiscord();
+setInterval(loadDiscord,15000);
 </script>
 
 </body>
