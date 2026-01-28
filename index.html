@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+/* ================= THEME ================= */
 :root{
   --bg:#0e0e14;
   --card:#181825;
@@ -13,8 +14,19 @@
   --accent:rgb(255,120,80);
 }
 
-/* ================= BASE ================= */
+body[data-theme="purple"]{
+  --bg:#120c24;
+  --card:#1d1438;
+  --accent:rgb(180,120,255);
+}
+body[data-theme="neon"]{
+  --bg:#050505;
+  --card:#0c0c0c;
+  --accent:rgb(0,255,200);
+}
+
 *{box-sizing:border-box}
+
 body{
   margin:0;
   min-height:100vh;
@@ -40,10 +52,10 @@ body{
   box-shadow:0 10px 30px rgba(0,0,0,.4);
 }
 #clock{font-size:26px;font-weight:700}
-#tz{font-size:12px;opacity:.8;margin-top:2px}
-#uptime{font-size:11px;opacity:.6}
+#timezone{font-size:12px;opacity:.8;margin-top:4px}
+#uptime{font-size:12px;opacity:.6;margin-top:2px}
 
-/* ================= CARD ================= */
+/* ================= CONTAINER ================= */
 .container{
   width:100%;
   max-width:420px;
@@ -87,48 +99,51 @@ h1{text-align:center;margin:8px 0 4px}
   box-shadow:0 0 6px currentColor;
 }
 
-/* ================= LINK ================= */
+/* ================= LINKS ================= */
 .link{
-  text-decoration:none;
+  position:relative;
+  overflow:hidden;
   display:block;
   margin-top:14px;
-  opacity:0;
-  animation:revealGlow .6s cubic-bezier(.2,.8,.2,1) forwards;
-  animation-delay:calc(var(--i) * .12s);
+  border-radius:14px;
+  text-decoration:none;
+  color:var(--text);
 }
 
 .link-inner{
   position:relative;
-  overflow:hidden;
+  z-index:1;
   padding:15px;
-  border-radius:14px;
   display:flex;
-  align-items:center;
   justify-content:center;
+  align-items:center;
   gap:10px;
-
-  background:color-mix(in srgb,var(--card) 85%,black);
-  color:var(--text);
   font-weight:600;
-
+  background:color-mix(in srgb,var(--card) 85%,black);
   border:1px solid color-mix(in srgb,var(--accent) 35%,transparent);
   transition:.18s ease;
 }
 
-/* hover glow */
+/* reveal */
+.link{
+  opacity:0;
+  transform:translateY(18px) scale(.96);
+  animation:revealGlow .7s cubic-bezier(.2,.8,.2,1) forwards;
+  animation-delay:calc(var(--i) * .12s);
+}
+
 .link:hover .link-inner{
   transform:scale(1.06);
   box-shadow:
-    0 0 16px color-mix(in srgb,var(--accent) 55%,transparent),
-    0 0 34px color-mix(in srgb,var(--accent) 35%,transparent);
+    0 0 14px color-mix(in srgb,var(--accent) 55%,transparent),
+    0 0 28px color-mix(in srgb,var(--accent) 35%,transparent);
 }
 
-/* active press */
 .link:active .link-inner{
   transform:scale(.95);
 }
 
-/* ================= RIPPLE ================= */
+/* ripple */
 .ripple{
   position:absolute;
   width:16px;
@@ -142,7 +157,15 @@ h1{text-align:center;margin:8px 0 4px}
   animation:ripple .55s ease-out;
 }
 
-/* ================= ANIM ================= */
+/* ================= FOOTER ================= */
+.footer{
+  margin:24px 0 8px;
+  text-align:center;
+  font-size:12px;
+  opacity:.6;
+}
+
+/* ================= ANIMATIONS ================= */
 @keyframes ripple{
   to{
     transform:translate(-50%,-50%) scale(14);
@@ -150,9 +173,9 @@ h1{text-align:center;margin:8px 0 4px}
   }
 }
 @keyframes revealGlow{
-  from{opacity:0;transform:translateY(16px) scale(.96)}
+  0%{opacity:0;transform:translateY(18px) scale(.96)}
   70%{opacity:1;transform:translateY(0) scale(1.03)}
-  to{opacity:1;transform:none}
+  100%{opacity:1;transform:translateY(0) scale(1)}
 }
 @keyframes fadeUp{
   from{opacity:0;transform:translateY(20px)}
@@ -165,12 +188,11 @@ h1{text-align:center;margin:8px 0 4px}
 
 /* ================= MOBILE ================= */
 @media(max-width:480px){
-  body{align-items:flex-start}
+  body{padding:16px;align-items:flex-start}
   .clock-box{top:16px;right:16px;padding:10px 14px}
   #clock{font-size:18px}
   .container{margin-top:90px;padding:22px}
 }
-  
 </style>
 </head>
 
@@ -179,7 +201,7 @@ h1{text-align:center;margin:8px 0 4px}
 <!-- CLOCK -->
 <div class="clock-box">
   <div id="clock">00:00:00</div>
-  <div id="tz">GMT+7 • Asia, Vietnam • Ho Chi Minh 🇻🇳</div>
+  <div id="timezone">GMT+7 • Asia/Vietnam/Ho Chi Minh 🇻🇳</div>
   <div id="uptime">Uptime: 0s</div>
 </div>
 
@@ -194,35 +216,29 @@ h1{text-align:center;margin:8px 0 4px}
     <span id="discord-text">Loading Discord…</span>
   </div>
 
-  <!-- LINKS -->
   <a class="link" style="--i:1" href="https://github.com/k4mengxcsxn" target="_blank">
     <div class="link-inner">🐙 GitHub</div>
   </a>
-
   <a class="link" style="--i:2" href="https://www.tiktok.com/@k4mengxcsxn._" target="_blank">
     <div class="link-inner">🎵 TikTok</div>
   </a>
-
   <a class="link" style="--i:3" href="https://www.facebook.com/iamkamengocson" target="_blank">
     <div class="link-inner">📘 Facebook</div>
   </a>
-
   <a class="link" style="--i:4" href="https://www.instagram.com/itzz_.kamengocson_" target="_blank">
     <div class="link-inner">📸 Instagram</div>
   </a>
-
   <a class="link" style="--i:5" href="https://discord.com/users/k4mengxcsxn_" target="_blank">
     <div class="link-inner">🎮 Discord</div>
   </a>
-
   <a class="link" style="--i:6" href="mailto:kame.ngocson2101@gmail.com">
     <div class="link-inner">📧 Email</div>
   </a>
-</div>
 
-<footer class="footer">
-  © 2026 • Made by Kame Ngoc Son
-</footer>
+  <div class="footer">
+    © 2026 • Made by Kame Ngoc Son
+  </div>
+</div>
 
 <script>
 /* ===== RIPPLE (CHẮC CHẮN CHẠY) ===== */
@@ -234,9 +250,10 @@ document.querySelectorAll(".link").forEach(link=>{
 
     const rect = inner.getBoundingClientRect();
     const ripple = document.createElement("span");
-    ripple.className="ripple";
+    ripple.className = "ripple";
     ripple.style.left = e.clientX - rect.left + "px";
     ripple.style.top  = e.clientY - rect.top  + "px";
+
     inner.appendChild(ripple);
 
     const href = link.href;
@@ -244,7 +261,7 @@ document.querySelectorAll(".link").forEach(link=>{
 
     setTimeout(()=>{
       ripple.remove();
-      target==="_blank"
+      target === "_blank"
         ? window.open(href,"_blank")
         : location.href = href;
     },160);
@@ -255,14 +272,12 @@ document.querySelectorAll(".link").forEach(link=>{
 const clock=document.getElementById("clock");
 const uptime=document.getElementById("uptime");
 const start=Date.now();
-
 setInterval(()=>{
   const n=new Date();
   clock.textContent=
     String(n.getHours()).padStart(2,"0")+":"+
     String(n.getMinutes()).padStart(2,"0")+":"+
     String(n.getSeconds()).padStart(2,"0");
-
   uptime.textContent=`Uptime: ${Math.floor((Date.now()-start)/1000)}s`;
 },1000);
 
