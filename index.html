@@ -12,6 +12,7 @@
   --text:#fff;
   --accent:rgb(255,120,80);
 }
+
 body[data-theme="purple"]{
   --bg:#120c24;
   --card:#1d1438;
@@ -22,6 +23,7 @@ body[data-theme="neon"]{
   --card:#0c0c0c;
   --accent:rgb(0,255,200);
 }
+
 *{box-sizing:border-box}
 
 body{
@@ -36,7 +38,7 @@ body{
   padding:24px;
 }
 
-/* CLOCK */
+/* ================= CLOCK ================= */
 .clock-box{
   position:fixed;
   top:24px;
@@ -49,9 +51,10 @@ body{
   box-shadow:0 10px 30px rgba(0,0,0,.4);
 }
 #clock{font-size:26px;font-weight:700}
-#uptime{font-size:12px;opacity:.7}
+#timezone{font-size:12px;opacity:.75}
+#uptime{font-size:11px;opacity:.6}
 
-/* CONTAINER */
+/* ================= CONTAINER ================= */
 .container{
   width:100%;
   max-width:420px;
@@ -62,7 +65,7 @@ body{
   animation:fadeUp .6s ease;
 }
 
-/* AVATAR */
+/* ================= AVATAR ================= */
 .avatar{
   width:100px;
   height:100px;
@@ -74,54 +77,66 @@ body{
   animation:pulse 3s infinite;
 }
 
-/* TEXT */
+/* ================= TEXT ================= */
 h1{text-align:center;margin:8px 0 4px}
 .bio{text-align:center;font-size:14px;opacity:.85}
 
-/* DISCORD */
+/* ================= DISCORD STATUS ================= */
 .status{
   display:flex;
+  align-items:center;
   justify-content:center;
   gap:8px;
   margin:12px 0 18px;
   font-size:13px;
 }
 .dot{
-  width:10px;height:10px;border-radius:50%;
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:#777;
   box-shadow:0 0 6px currentColor;
 }
 
-/* LINKS */
+/* ================= LINK ================= */
 .link{
   position:relative;
   overflow:hidden;
+
   display:flex;
   justify-content:center;
   align-items:center;
   gap:10px;
+
   margin-top:14px;
   padding:15px;
   border-radius:14px;
+
   text-decoration:none;
   font-weight:600;
   color:var(--text);
+
   background:color-mix(in srgb,var(--card) 85%,black);
   border:1px solid color-mix(in srgb,var(--accent) 35%,transparent);
+
   opacity:0;
   transform:translateY(18px) scale(.96);
   animation:revealGlow .7s cubic-bezier(.2,.8,.2,1) forwards;
-  animation-delay:calc(var(--i)*.12s);
-  transition:.18s ease;
+  animation-delay:calc(var(--i) * .12s);
+
+  transition:transform .18s ease, box-shadow .18s ease;
 }
+
 .link:hover{
   transform:scale(1.06);
   box-shadow:
     0 0 14px color-mix(in srgb,var(--accent) 55%,transparent),
     0 0 28px color-mix(in srgb,var(--accent) 35%,transparent);
 }
+
 .link:active{transform:scale(.95)}
 
-/* RIPPLE */
+/* ===== RIPPLE ===== */
 .ripple{
   position:absolute;
   width:20px;
@@ -135,7 +150,7 @@ h1{text-align:center;margin:8px 0 4px}
   animation:ripple .6s ease-out;
 }
 
-/* CONTROLS */
+/* ================= CONTROLS ================= */
 .controls{
   display:flex;
   justify-content:center;
@@ -150,9 +165,9 @@ h1{text-align:center;margin:8px 0 4px}
   cursor:pointer;
 }
 
-/* ANIMATIONS */
+/* ================= ANIMATIONS ================= */
 @keyframes ripple{
-  to{transform:translate(-50%,-50%) scale(14);opacity:0}
+  to{transform:translate(-50%,-50%) scale(12);opacity:0}
 }
 @keyframes revealGlow{
   0%{opacity:0;transform:translateY(18px) scale(.96)}
@@ -168,23 +183,26 @@ h1{text-align:center;margin:8px 0 4px}
   50%{box-shadow:0 0 20px rgba(255,120,80,.6)}
 }
 
-/* MOBILE */
+/* ================= MOBILE ================= */
 @media(max-width:480px){
   body{padding:16px;align-items:flex-start}
   .clock-box{top:16px;right:16px;padding:10px 14px}
   #clock{font-size:18px}
-  .container{margin-top:80px;padding:22px}
+  .container{margin-top:90px;padding:22px}
 }
 </style>
 </head>
 
 <body>
 
+<!-- CLOCK -->
 <div class="clock-box">
   <div id="clock">00:00:00</div>
+  <div id="timezone">GMT+7 · Asia/Ho Chi Minh 🇻🇳</div>
   <div id="uptime">Uptime: 0s</div>
 </div>
 
+<!-- PROFILE -->
 <div class="container">
   <img class="avatar" src="https://avatars.githubusercontent.com/u/256741950">
   <h1>Pham Ngoc Son</h1>
@@ -208,24 +226,20 @@ h1{text-align:center;margin:8px 0 4px}
 </div>
 
 <script>
-/* RIPPLE FIX */
+/* ===== RIPPLE FIX 100% ===== */
 document.querySelectorAll(".link").forEach(link=>{
-  link.addEventListener("click",e=>{
-    e.preventDefault();
+  link.addEventListener("pointerdown",e=>{
     const rect=link.getBoundingClientRect();
     const r=document.createElement("span");
     r.className="ripple";
     r.style.left=(e.clientX-rect.left)+"px";
     r.style.top=(e.clientY-rect.top)+"px";
     link.appendChild(r);
-    setTimeout(()=>{
-      r.remove();
-      window.open(link.href, link.target||"_self");
-    },220);
+    setTimeout(()=>r.remove(),600);
   });
 });
 
-/* CLOCK */
+/* ===== CLOCK ===== */
 const clock=document.getElementById("clock");
 const uptime=document.getElementById("uptime");
 const start=Date.now();
@@ -238,7 +252,7 @@ setInterval(()=>{
   uptime.textContent=`Uptime: ${Math.floor((Date.now()-start)/1000)}s`;
 },1000);
 
-/* THEME */
+/* ===== THEME ===== */
 const themes=["default","purple","neon"];
 let idx=0;
 function switchTheme(){
@@ -246,16 +260,20 @@ function switchTheme(){
   document.body.dataset.theme=themes[idx]==="default"?"":themes[idx];
 }
 
-/* DISCORD */
+/* ===== DISCORD REALTIME ===== */
 async function loadDiscord(){
   const res=await fetch("https://api.lanyard.rest/v1/users/1216226389582282842");
   const d=(await res.json()).data;
   const dot=document.getElementById("dot");
   const text=document.getElementById("discord-text");
+
   const colors={
-    online:"#3ba55d",idle:"#faa61a",
-    dnd:"#ed4245",offline:"#747f8d"
+    online:"#3ba55d",
+    idle:"#faa61a",
+    dnd:"#ed4245",
+    offline:"#747f8d"
   };
+
   dot.style.background=colors[d.discord_status];
   dot.style.color=colors[d.discord_status];
   text.textContent=
