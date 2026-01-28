@@ -126,6 +126,30 @@ h1{text-align:center;margin:8px 0 4px}
 
   transition:transform .18s ease, box-shadow .18s ease;
 }
+  .link{
+  position:relative;
+  overflow:hidden;
+}
+
+.ripple{
+  position:absolute;
+  width:16px;
+  height:16px;
+  border-radius:50%;
+  pointer-events:none;
+  background:radial-gradient(circle,
+    color-mix(in srgb,var(--accent) 80%,transparent),
+    transparent 70%);
+  transform:translate(-50%,-50%) scale(0);
+  animation:ripple .55s ease-out;
+}
+
+@keyframes ripple{
+  to{
+    transform:translate(-50%,-50%) scale(14);
+    opacity:0;
+  }
+}
 
 .link:hover{
   transform:scale(1.06);
@@ -198,7 +222,7 @@ h1{text-align:center;margin:8px 0 4px}
 <!-- CLOCK -->
 <div class="clock-box">
   <div id="clock">00:00:00</div>
-  <div id="timezone">GMT+7 · Asia/Ho Chi Minh 🇻🇳</div>
+  <div id="timezone">GMT+7 · Asia/Vietnam/Ho Chi Minh 🇻🇳</div>
   <div id="uptime">Uptime: 0s</div>
 </div>
 
@@ -219,6 +243,34 @@ h1{text-align:center;margin:8px 0 4px}
   <a class="link" style="--i:4" href="https://www.instagram.com/itzz_.kamengocson_" target="_blank">📸 Instagram</a>
   <a class="link" style="--i:5" href="https://discord.com/users/k4mengxcsxn_" target="_blank">🎮 Discord</a>
   <a class="link" style="--i:6" href="mailto:kame.ngocson2101@gmail.com">📧 Email</a>
+  <script>
+document.querySelectorAll(".link").forEach(link=>{
+  link.addEventListener("click",e=>{
+    e.preventDefault(); // ❗ CHẶN ĐI LINK
+
+    const rect = link.getBoundingClientRect();
+    const ripple = document.createElement("span");
+    ripple.className = "ripple";
+    ripple.style.left = e.clientX - rect.left + "px";
+    ripple.style.top  = e.clientY - rect.top  + "px";
+
+    link.appendChild(ripple);
+
+    const href = link.href;
+    const target = link.target;
+
+    // ripple xong mới đi link
+    setTimeout(()=>{
+      ripple.remove();
+      if(target === "_blank"){
+        window.open(href, "_blank");
+      }else{
+        window.location.href = href;
+      }
+    }, 160);
+  });
+});
+  </script>
 
   <div class="controls">
     <button class="control-btn" onclick="switchTheme()">🎨 Theme</button>
