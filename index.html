@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Card Link + Ripple</title>
+<title>myprofileishere</title>
 
 <style>
 :root{
   --bg:#0b0d12;
   --card:#141824;
   --text:#e8eaff;
-  --accent:#6cf2c2;
+  --accent:rgb(255,120,80);
 }
 
 *{
@@ -45,7 +45,6 @@ body{
 .link-inner{
   position:relative;
   overflow:hidden;
-
   padding:16px;
   border-radius:16px;
 
@@ -81,7 +80,7 @@ body{
 }
 
 .link:active .link-inner{
-  transform:translateY(0) scale(.985);
+  transform:scale(.98);
 }
 
 /* ===== RIPPLE ===== */
@@ -93,7 +92,7 @@ body{
   pointer-events:none;
 
   background:radial-gradient(circle,
-    color-mix(in srgb,var(--accent) 80%,transparent),
+    color-mix(in srgb,var(--accent) 85%,transparent),
     transparent 70%
   );
 
@@ -103,7 +102,7 @@ body{
 
 @keyframes ripple{
   to{
-    transform:translate(-50%,-50%) scale(16);
+    transform:translate(-50%,-50%) scale(18);
     opacity:0;
   }
 }
@@ -113,7 +112,7 @@ body{
   margin-top:24px;
   text-align:center;
   font-size:12px;
-  opacity:.55;
+  opacity:.6;
 }
 </style>
 </head>
@@ -121,19 +120,32 @@ body{
 <body>
 <div class="container">
 
-  <a class="link" href="https://github.com" target="_blank">
-    <div class="link-inner">🌐 GitHub</div>
+  <a class="link" href="https://github.com/k4mengxcsxn" target="_blank">
+    <div class="link-inner">🐙 GitHub</div>
   </a>
 
-  <a class="link" href="https://facebook.com" target="_blank">
+  <a class="link" href="https://www.tiktok.com/@k4mengxcsxn._" target="_blank">
+    <div class="link-inner">🎵 TikTok</div>
+  </a>
+
+  <a class="link" href="https://www.facebook.com/iamkamengocson" target="_blank">
     <div class="link-inner">📘 Facebook</div>
   </a>
 
-  <a class="link" href="https://instagram.com" target="_blank">
+  <a class="link" href="https://www.instagram.com/itzz_.kamengocson_" target="_blank">
     <div class="link-inner">📸 Instagram</div>
   </a>
 
-  <div class="footer">© 2026 Sơn</div>
+  <a class="link" href="https://discord.com/users/k4mengxcsxn_" target="_blank">
+    <div class="link-inner">🎮 Discord</div>
+  </a>
+
+  <a class="link" href="mailto:kame.ngocson2101@gmail.com">
+    <div class="link-inner">📧 Email</div>
+  </a>
+
+  <div class="footer">© 2026 • Made by Kame Ngoc Son</div>
+
 </div>
 
 <script>
@@ -150,10 +162,10 @@ document.querySelectorAll(".link").forEach(link=>{
     ripple.style.top  = e.clientY - rect.top  + "px";
 
     inner.appendChild(ripple);
-
-    setTimeout(()=> ripple.remove(),600);
+    setTimeout(()=>ripple.remove(),600);
   });
 });
 </script>
+
 </body>
 </html>
