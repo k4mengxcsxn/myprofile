@@ -6,23 +6,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-/* ================= THEME ================= */
 :root{
   --bg:#0e0e14;
   --card:#181825;
   --text:#fff;
   --accent:rgb(255,120,80);
-}
-
-body[data-theme="purple"]{
-  --bg:#120c24;
-  --card:#1d1438;
-  --accent:rgb(180,120,255);
-}
-body[data-theme="neon"]{
-  --bg:#050505;
-  --card:#0c0c0c;
-  --accent:rgb(0,255,200);
 }
 
 *{box-sizing:border-box}
@@ -78,7 +66,6 @@ body{
   animation:pulse 3s infinite;
 }
 
-/* ================= TEXT ================= */
 h1{text-align:center;margin:8px 0 4px}
 .bio{text-align:center;font-size:14px;opacity:.85}
 
@@ -108,39 +95,55 @@ h1{text-align:center;margin:8px 0 4px}
   border-radius:14px;
   text-decoration:none;
   color:var(--text);
-}
-
-.link-inner{
-  position:relative;
-  z-index:1;
-  padding:15px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:10px;
-  font-weight:600;
-  background:color-mix(in srgb,var(--card) 85%,black);
-  border:1px solid color-mix(in srgb,var(--accent) 35%,transparent);
-  transition:.18s ease;
-}
-
-/* reveal */
-.link{
   opacity:0;
   transform:translateY(18px) scale(.96);
   animation:revealGlow .7s cubic-bezier(.2,.8,.2,1) forwards;
   animation-delay:calc(var(--i) * .12s);
 }
 
-.link:hover .link-inner{
-  transform:scale(1.06);
+/* === CARD LOOK (BOTTOM ĐẸP) === */
+.link-inner{
+  position:relative;
+  z-index:1;
+  padding:16px 18px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+  font-weight:600;
+
+  background:linear-gradient(
+    180deg,
+    color-mix(in srgb,var(--card) 92%,white),
+    color-mix(in srgb,var(--card) 85%,black)
+  );
+
+  border-radius:14px;
+  border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);
+
   box-shadow:
-    0 0 14px color-mix(in srgb,var(--accent) 55%,transparent),
-    0 0 28px color-mix(in srgb,var(--accent) 35%,transparent);
+    0 6px 0 color-mix(in srgb,var(--card) 65%,black),
+    0 14px 28px rgba(0,0,0,.45);
+
+  transition:
+    transform .18s ease,
+    box-shadow .18s ease,
+    filter .18s ease;
+}
+
+.link:hover .link-inner{
+  transform:translateY(-3px) scale(1.05);
+  box-shadow:
+    0 6px 0 color-mix(in srgb,var(--accent) 60%,black),
+    0 0 16px color-mix(in srgb,var(--accent) 45%,transparent),
+    0 20px 36px rgba(0,0,0,.55);
 }
 
 .link:active .link-inner{
-  transform:scale(.95);
+  transform:translateY(2px) scale(.96);
+  box-shadow:
+    0 2px 0 color-mix(in srgb,var(--card) 70%,black),
+    0 8px 16px rgba(0,0,0,.35);
 }
 
 /* ripple */
@@ -167,10 +170,7 @@ h1{text-align:center;margin:8px 0 4px}
 
 /* ================= ANIMATIONS ================= */
 @keyframes ripple{
-  to{
-    transform:translate(-50%,-50%) scale(14);
-    opacity:0;
-  }
+  to{transform:translate(-50%,-50%) scale(14);opacity:0}
 }
 @keyframes revealGlow{
   0%{opacity:0;transform:translateY(18px) scale(.96)}
@@ -198,14 +198,12 @@ h1{text-align:center;margin:8px 0 4px}
 
 <body>
 
-<!-- CLOCK -->
 <div class="clock-box">
   <div id="clock">00:00:00</div>
   <div id="timezone">GMT+7 • Asia/Vietnam/Ho Chi Minh 🇻🇳</div>
   <div id="uptime">Uptime: 0s</div>
 </div>
 
-<!-- PROFILE -->
 <div class="container">
   <img class="avatar" src="https://avatars.githubusercontent.com/u/256741950">
   <h1>Pham Ngoc Son</h1>
@@ -216,59 +214,32 @@ h1{text-align:center;margin:8px 0 4px}
     <span id="discord-text">Loading Discord…</span>
   </div>
 
-  <a class="link" style="--i:1" href="https://github.com/k4mengxcsxn" target="_blank">
-    <div class="link-inner">🐙 GitHub</div>
-  </a>
-  <a class="link" style="--i:2" href="https://www.tiktok.com/@k4mengxcsxn._" target="_blank">
-    <div class="link-inner">🎵 TikTok</div>
-  </a>
-  <a class="link" style="--i:3" href="https://www.facebook.com/iamkamengocson" target="_blank">
-    <div class="link-inner">📘 Facebook</div>
-  </a>
-  <a class="link" style="--i:4" href="https://www.instagram.com/itzz_.kamengocson_" target="_blank">
-    <div class="link-inner">📸 Instagram</div>
-  </a>
-  <a class="link" style="--i:5" href="https://discord.com/users/k4mengxcsxn_" target="_blank">
-    <div class="link-inner">🎮 Discord</div>
-  </a>
-  <a class="link" style="--i:6" href="mailto:kame.ngocson2101@gmail.com">
-    <div class="link-inner">📧 Email</div>
-  </a>
+  <a class="link" style="--i:1" href="https://github.com/k4mengxcsxn" target="_blank"><div class="link-inner">🐙 GitHub</div></a>
+  <a class="link" style="--i:2" href="https://www.tiktok.com/@k4mengxcsxn._" target="_blank"><div class="link-inner">🎵 TikTok</div></a>
+  <a class="link" style="--i:3" href="https://www.facebook.com/iamkamengocson" target="_blank"><div class="link-inner">📘 Facebook</div></a>
+  <a class="link" style="--i:4" href="https://www.instagram.com/itzz_.kamengocson_" target="_blank"><div class="link-inner">📸 Instagram</div></a>
+  <a class="link" style="--i:5" href="https://discord.com/users/k4mengxcsxn_" target="_blank"><div class="link-inner">🎮 Discord</div></a>
+  <a class="link" style="--i:6" href="mailto:kame.ngocson2101@gmail.com"><div class="link-inner">📧 Email</div></a>
 
-  <div class="footer">
-    © 2026 • Made by Kame Ngoc Son
-  </div>
+  <div class="footer">© 2026 • Made by Kame Ngoc Son</div>
 </div>
 
 <script>
-/* ===== RIPPLE (CHẮC CHẮN CHẠY) ===== */
 document.querySelectorAll(".link").forEach(link=>{
-  const inner = link.querySelector(".link-inner");
-
+  const inner=link.querySelector(".link-inner");
   link.addEventListener("click",e=>{
     e.preventDefault();
-
-    const rect = inner.getBoundingClientRect();
-    const ripple = document.createElement("span");
-    ripple.className = "ripple";
-    ripple.style.left = e.clientX - rect.left + "px";
-    ripple.style.top  = e.clientY - rect.top  + "px";
-
-    inner.appendChild(ripple);
-
-    const href = link.href;
-    const target = link.target;
-
-    setTimeout(()=>{
-      ripple.remove();
-      target === "_blank"
-        ? window.open(href,"_blank")
-        : location.href = href;
-    },160);
+    const r=inner.getBoundingClientRect();
+    const s=document.createElement("span");
+    s.className="ripple";
+    s.style.left=e.clientX-r.left+"px";
+    s.style.top=e.clientY-r.top+"px";
+    inner.appendChild(s);
+    const h=link.href,t=link.target;
+    setTimeout(()=>{s.remove();t==="_blank"?open(h,"_blank"):location.href=h},160);
   });
 });
 
-/* ===== CLOCK ===== */
 const clock=document.getElementById("clock");
 const uptime=document.getElementById("uptime");
 const start=Date.now();
@@ -281,31 +252,17 @@ setInterval(()=>{
   uptime.textContent=`Uptime: ${Math.floor((Date.now()-start)/1000)}s`;
 },1000);
 
-/* ===== DISCORD REALTIME ===== */
 async function loadDiscord(){
-  const res=await fetch("https://api.lanyard.rest/v1/users/1216226389582282842");
-  const d=(await res.json()).data;
-
+  const r=await fetch("https://api.lanyard.rest/v1/users/1216226389582282842");
+  const d=(await r.json()).data;
   const dot=document.getElementById("dot");
   const text=document.getElementById("discord-text");
-
-  const colors={
-    online:"#3ba55d",
-    idle:"#faa61a",
-    dnd:"#ed4245",
-    offline:"#747f8d"
-  };
-
-  dot.style.background=colors[d.discord_status];
-  dot.style.color=colors[d.discord_status];
-
-  text.textContent=
-    d.listening_to_spotify
-      ? "Listening to Spotify 🎧"
-      : d.activities[0]?.name || d.discord_status;
+  const c={online:"#3ba55d",idle:"#faa61a",dnd:"#ed4245",offline:"#747f8d"};
+  dot.style.background=c[d.discord_status];
+  dot.style.color=c[d.discord_status];
+  text.textContent=d.listening_to_spotify?"Listening to Spotify 🎧":d.activities[0]?.name||d.discord_status;
 }
-loadDiscord();
-setInterval(loadDiscord,15000);
+loadDiscord();setInterval(loadDiscord,15000);
 </script>
 
 </body>
